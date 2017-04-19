@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ThemeColor"
+    tools:context="com.monster.fancy.debug.mago.WelcomeActivity">
+
+    <ImageView
+        android:id="@+id/logo_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        android:layout_marginBottom="200dp"
+        android:src="@drawable/logo"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mago"
+        android:textSize="48sp"
+        android:textColor="@color/ivory"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/logo_img"
+        android:layout_marginBottom="3dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/textColor_gray"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:textSize="13sp"
+        android:text="little monster company    @copyright"/>
+</RelativeLayout>

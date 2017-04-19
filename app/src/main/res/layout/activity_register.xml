@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.monster.fancy.debug.mago.RegisterActivity">
+    <EditText
+        android:id="@+id/reg_phone_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/phone_hint"/>
+    <EditText
+        android:id="@+id/reg_password_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/password_hint2"/>
+    <EditText
+        android:id="@+id/passwordAgain_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/passwordConfirm_hint"/>
+    <Button
+        android:id="@+id/reg_nextStep_btn"
+        style="@style/BtnStyle"
+        android:text="@string/nextStep"/>
+</LinearLayout>

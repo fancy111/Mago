@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Mago</string>
+    <string name="login">登录</string>
+    <string name="phone_hint">请输入手机号</string>
+    <string name="password_hint2">设置登录密码，不少于6位</string>
+    <string name="passwordConfirm_hint">请再次输入密码</string>
+    <string name="password_hint">密码</string>
+    <string name="forgetPassword">忘记密码</string>
+    <string name="registerNow">立即注册</string>
+    <string name="nextStep">下一步</string>
+    <string name="authCode">请输入收到的手机验证码</string>
+    <string name="resend">重新发送</string>
+</resources>
