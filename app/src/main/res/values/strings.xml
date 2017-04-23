@@ -7,7 +7,29 @@
     <string name="password_hint">密码</string>
     <string name="forgetPassword">忘记密码</string>
     <string name="registerNow">立即注册</string>
+    <string name="register">注册</string>
     <string name="nextStep">下一步</string>
     <string name="authCode">请输入收到的手机验证码</string>
+    <string name="phoneAuth">手机验证</string>
     <string name="resend">重新发送</string>
+    <string name="selfIntro">个人介绍</string>
+    <string name="selfIntroContent">    介绍一下自己...</string>
+    <string name="myProfile">我的资料</string>
+    <string name="nickname">昵称</string>
+    <string name="realname">真实姓名</string>
+    <string name="phone">电话</string>
+    <string name="gender">性别</string>
+    <string name="adressList">通讯录</string>
+    <string name="detailInfo">详细信息</string>
+    <string name="setStarFriend">设为星标朋友</string>
+    <string name="findFriend">找到朋友</string>
+    <string name="delete">删除</string>
+    <string name="myFriend">我的好友</string>
+    <string name="setting">设置账户</string>
+    <string name="help">系统帮助</string>
+    <string name="message">消息通知</string>
+    <string name="logout">注销</string>
+    <string name="userDefaultSig">这个人很懒，他什么也没留下</string>
+
+
 </resources>

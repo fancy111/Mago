@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backGray"
+    tools:context="com.monster.fancy.debug.mago.ProfileActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basicColor">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:onClick="back"
+                android:id="@+id/back_btn"
+                style="@style/imageBtnStyle"
+                android:src="@drawable/back_icon" />
+
+            <TextView
+                style="@style/textViewToolBarStyle"
+                android:text="@string/myProfile" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/ivory">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/imageview_round" />
+
+        <com.monster.fancy.debug.view.RoundImageView
+            android:id="@+id/photo_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxHeight="130dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/photo" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical"
+        android:background="@color/ivory">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentLeft="true"
+                android:text="@string/nickname" />
+
+            <TextView
+                android:id="@+id/nickname_text"
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentRight="true"
+                android:text="fanfanfansiyu" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/textColor_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentLeft="true"
+                android:text="@string/realname" />
+
+            <TextView
+                android:id="@+id/realname_text"
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentRight="true"
+                android:text="范思妤" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/textColor_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentLeft="true"
+                android:text="@string/gender" />
+
+            <TextView
+                android:id="@+id/gender_text"
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentRight="true"
+                android:text="女" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/textColor_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentLeft="true"
+                android:text="@string/phone" />
+
+            <TextView
+                android:id="@+id/phone_text"
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentRight="true"
+                android:text="13919211200" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="@string/selfIntro"
+        android:padding="10dp"
+        android:background="@color/ivory" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/textColor_gray" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@color/ivory"
+        android:padding="10dp"
+        android:hint="@string/selfIntroContent" />
+
+</LinearLayout>

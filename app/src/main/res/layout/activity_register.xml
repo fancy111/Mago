@@ -5,23 +5,47 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.monster.fancy.debug.mago.RegisterActivity">
-    <EditText
-        android:id="@+id/reg_phone_edt"
+
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:background="@color/basicColor">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/back_btn"
+                style="@style/imageBtnStyle"
+                android:src="@drawable/back_icon" />
+
+            <TextView
+                style="@style/textViewToolBarStyle"
+                android:text="@string/register" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/reg_phone_edt"
+        style="@style/edtTextStyle"
+        android:inputType="phone"
+        android:drawableLeft="@drawable/phone_icon"
+        android:drawablePadding="4dp"
         android:hint="@string/phone_hint"/>
     <EditText
         android:id="@+id/reg_password_edt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        style="@style/edtTextStyle"
+        android:inputType="textPassword"
+        android:drawableLeft="@drawable/password_icon"
+        android:drawablePadding="4dp"
         android:hint="@string/password_hint2"/>
     <EditText
         android:id="@+id/passwordAgain_edt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        style="@style/edtTextStyle"
+        android:inputType="textPassword"
+        android:drawableLeft="@drawable/password_icon"
+        android:drawablePadding="4dp"
         android:hint="@string/passwordConfirm_hint"/>
     <Button
         android:id="@+id/reg_nextStep_btn"

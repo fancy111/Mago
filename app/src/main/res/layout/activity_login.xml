@@ -6,23 +6,42 @@
     android:orientation="vertical"
     tools:context="com.monster.fancy.debug.mago.LoginActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basicColor">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/textViewToolBarStyle"
+                android:text="@string/login" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
+        android:maxHeight="130dp"
+        android:adjustViewBounds="true"
         android:src="@drawable/logo"/>
     <EditText
         android:id="@+id/login_phone_edt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        style="@style/edtTextStyle"
+        android:inputType="phone"
+        android:drawableLeft="@drawable/login_icon"
+        android:drawablePadding="4dp"
         android:hint="@string/phone_hint"/>
     <EditText
         android:id="@+id/login_password_edt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        style="@style/edtTextStyle"
+        android:inputType="textPassword"
+        android:drawableLeft="@drawable/password_icon"
+        android:drawablePadding="4dp"
         android:hint="@string/password_hint"/>
     <Button
         android:id="@+id/login_btn"
@@ -50,6 +69,5 @@
         android:layout_marginRight="15dp"
         android:text="@string/registerNow"/>
 </RelativeLayout>
-
 
 </LinearLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.monster.fancy.debug.mago.AdressListActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basicColor">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:onClick="back"
+                android:id="@+id/back_btn"
+                style="@style/imageBtnStyle"
+                android:src="@drawable/back_icon" />
+
+            <TextView
+                style="@style/textViewToolBarStyle"
+                android:text="@string/adressList" />
+
+            <ImageButton
+                android:id="@+id/addFriend_btn"
+                style="@style/imageBtnStyle"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/addfriend_icon" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+
+    <com.monster.fancy.debug.view.SearchEditText
+        android:id="@+id/searchFriend_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_search_input"
+        android:imeOptions="actionSearch"
+        android:drawableLeft="@drawable/search_icon"
+        android:drawableRight="@drawable/delete_icon"
+        android:drawablePadding="5dp"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:textSize="14sp" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/friend_lst"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/textColor_gray"
+            android:dividerHeight="1dp"></ListView>
+
+        <com.monster.fancy.debug.view.SideBar
+            android:id="@+id/friend_sideBar"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center" />
+    </FrameLayout>
+
+</LinearLayout>

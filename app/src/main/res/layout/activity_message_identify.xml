@@ -5,13 +5,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.monster.fancy.debug.mago.MessageIdentifyActivity">
-    <EditText
-        android:id="@+id/identify_authCode_edt"
+
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:background="@color/basicColor">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/back_btn"
+                style="@style/imageBtnStyle"
+                android:src="@drawable/back_icon" />
+
+            <TextView
+                style="@style/textViewToolBarStyle"
+                android:text="@string/phoneAuth" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/identify_authCode_edt"
+        style="@style/edtTextStyle"
+        android:inputType="number"
+        android:drawableLeft="@drawable/auth_icon"
+        android:drawablePadding="4dp"
         android:hint="@string/authCode"/>
     <TextView
         android:id="@+id/identify_resend_btn"

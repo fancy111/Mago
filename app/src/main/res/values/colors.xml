@@ -8,5 +8,9 @@
     <color name="ivory">#fffff0</color><!--象牙色 -->
     <color name="basicColor">#4BB1A6</color>
     <color name="basicColorDark">#3F8D87</color>
-    4BB1A6
+    <color name="backGray">#E4E4E4</color>
+    <color name="shallowGray">#c7c7c7</color>
+    <color name="deleteRed">#cc0000</color>
+    <color name="deleteRedDark">#A60000</color>
+    <color name="transparent">#0000</color>
 </resources>

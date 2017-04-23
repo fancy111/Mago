@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.monster.fancy.debug.mago.MainActivity">
+
+    <!-- The main content view -->
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ThemeColor">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/photo" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start|left"
+        android:orientation="vertical"
+        android:background="@color/ivory">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@color/basicColor">
+
+            <com.monster.fancy.debug.view.RoundImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxHeight="130dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/photo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                style="@style/textViewToolBarStyle"
+                android:text="fanfanfansiyu" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/ivory"
+                android:text="level:1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/myfriend_text"
+            android:onClick="pageJump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/myFriend"
+            android:textColor="#8a8a8a"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:paddingRight="10dp"
+            android:drawableLeft="@drawable/myfriend_icon"
+            android:drawablePadding="20dp" />
+
+        <TextView
+            android:id="@+id/setting_text"
+            android:onClick="pageJump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/setting"
+            android:textColor="#8a8a8a"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:paddingRight="10dp"
+            android:drawableLeft="@drawable/setting_icon"
+            android:drawablePadding="20dp" />
+
+        <TextView
+            android:id="@+id/help_text"
+            android:onClick="pageJump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/help"
+            android:textColor="#8a8a8a"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:paddingRight="10dp"
+            android:drawableLeft="@drawable/help_icon"
+            android:drawablePadding="20dp" />
+
+        <TextView
+            android:id="@+id/message_text"
+            android:onClick="pageJump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/message"
+            android:textColor="#8a8a8a"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:paddingRight="10dp"
+            android:drawableLeft="@drawable/message_icon"
+            android:drawablePadding="20dp" />
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.DrawerLayout>

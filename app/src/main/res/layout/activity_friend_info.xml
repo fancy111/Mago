@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backGray"
+    tools:context="com.monster.fancy.debug.mago.FriendInfoActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basicColor">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:onClick="back"
+                android:id="@+id/back_btn"
+                style="@style/imageBtnStyle"
+                android:src="@drawable/back_icon" />
+
+            <TextView
+                style="@style/textViewToolBarStyle"
+                android:text="@string/detailInfo" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:background="@color/ivory">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/imageview_round" />
+
+            <com.monster.fancy.debug.view.RoundImageView
+                android:id="@+id/photo_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:maxHeight="90dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/photo"
+                android:background="@drawable/imageview_round" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="7">
+
+            <TextView
+                android:id="@+id/friend_nickname"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/textColor_gray"
+                android:layout_alignParentLeft="true"
+                android:text="rushZhou" />
+
+            <TextView
+                android:id="@+id/friend_realname"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true"
+                android:text="真实姓名：周冲" />
+
+            <TextView
+                android:id="@+id/friend_phone"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true"
+                android:text="手机号：15122223123" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/friend_remark"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:layout_alignParentLeft="true"
+        android:background="@color/ivory"
+        android:textSize="18sp"
+        android:textColor="@color/textColor_gray"
+        android:text="备注：哆啦A梦" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:layout_alignParentLeft="true"
+        android:background="@color/ivory"
+        android:textSize="18sp"
+        android:textColor="@color/textColor_gray"
+        android:text="@string/setStarFriend" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/textColor_gray"
+        android:text="@string/selfIntro"
+        android:padding="10dp"
+        android:background="@color/ivory" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/textColor_gray" />
+
+    <TextView
+        android:id="@+id/friend_description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/ivory"
+        android:textColor="@color/textColor_gray"
+        android:padding="10dp"
+        android:text="@string/userDefaultSig" />
+
+    <Button
+        android:onClick="findFriend"
+        style="@style/BtnStyle"
+        android:text="@string/findFriend" />
+
+    <Button
+        android:onClick="deleteFriend"
+        style="@style/DeleteBtnStyle"
+        android:layout_marginBottom="10dp"
+        android:text="@string/delete" />
+
+</LinearLayout>
