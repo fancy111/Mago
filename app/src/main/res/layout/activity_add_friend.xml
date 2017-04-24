@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.monster.fancy.debug.mago.AdressListActivity">
+    tools:context="com.monster.fancy.debug.mago.AddFriendActivity">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -23,20 +23,11 @@
 
             <TextView
                 style="@style/textViewToolBarStyle"
-                android:text="@string/adressList" />
-
-            <ImageButton
-                android:onClick="onAddFriend"
-                style="@style/imageBtnStyle"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/addfriend_icon" />
+                android:text="@string/addFriend" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
-
     <com.monster.fancy.debug.view.SearchEditText
-        android:id="@+id/searchFriend_edt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_search_input"
@@ -44,27 +35,9 @@
         android:drawableLeft="@drawable/search_icon"
         android:drawableRight="@drawable/delete_icon"
         android:drawablePadding="5dp"
-        android:layout_margin="5dp"
+        android:layout_marginTop="15dp"
         android:padding="5dp"
-        android:textSize="14sp" />
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
-            android:id="@+id/friend_lst"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@color/textColor_gray"
-            android:dividerHeight="1dp"></ListView>
-
-        <com.monster.fancy.debug.view.SideBar
-            android:id="@+id/friend_sideBar"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right|center" />
-    </FrameLayout>
+        android:textSize="14sp"
+        android:hint="输入好友的手机号" />
 
 </LinearLayout>

@@ -105,16 +105,31 @@
         android:textColor="@color/textColor_gray"
         android:text="备注：哆啦A梦" />
 
-    <TextView
-        android:layout_height="wrap_content"
+    <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:padding="10dp"
-        android:layout_alignParentLeft="true"
-        android:background="@color/ivory"
-        android:textSize="18sp"
-        android:textColor="@color/textColor_gray"
-        android:text="@string/setStarFriend" />
+        android:background="@color/ivory">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@color/textColor_gray"
+            android:text="@string/setStarFriend" />
+        <Switch
+            android:id="@+id/setStar_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textOff="@string/close"
+            android:textOn="@string/open"/>
+    </RelativeLayout>
+
 
     <TextView
         android:layout_width="match_parent"

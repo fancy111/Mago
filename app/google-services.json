@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "378989464890",
+    "firebase_url": "https://mago-99fcf.firebaseio.com",
+    "project_id": "mago-99fcf",
+    "storage_bucket": "mago-99fcf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378989464890:android:4fbf68440b27a61b",
+        "android_client_info": {
+          "package_name": "com.monster.fancy.debug.mago"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378989464890-om5vlds564m98f2i6j0t91rd6peap4ae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.monster.fancy.debug.mago",
+            "certificate_hash": "b28b812ad9ddd5478b4a561012eebb9976b0f4be"
+          }
+        },
+        {
+          "client_id": "378989464890-kkob33qk2di996a3n1jf44vnuiro6fgs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEUOkq1NWE0v1g7bwgaqBlMbqcn2m_-dU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378989464890-kkob33qk2di996a3n1jf44vnuiro6fgs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
