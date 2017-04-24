@@ -30,9 +30,13 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile files('libs/pinyin4j-2.5.0.jar')
+    compile 'com.google.firebase:firebase-core:9.6.1'
 
     // added by rushzhou 2017/4/24 for Gaode API
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // navigation SDK
     compile 'com.amap.api:navi-3dmap:latest.integration'
+
 }
+
+apply plugin: 'com.google.gms.google-services'

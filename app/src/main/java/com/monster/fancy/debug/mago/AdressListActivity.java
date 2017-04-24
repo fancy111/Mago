@@ -1,6 +1,7 @@
 package com.monster.fancy.debug.mago;
 
 import android.content.Intent;
+import android.location.Address;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -201,4 +202,8 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
         finish();
     }
 
+    public void onAddFriend(View view) {
+        Intent intent = new Intent(AdressListActivity.this,AddFriendActivity.class);
+        startActivity(intent);
+    }
 }

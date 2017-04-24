@@ -7,11 +7,13 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuthException;
+
 public class LoginActivity extends AppCompatActivity {
 
-    EditText login_phone;
-    EditText login_password;
-    String phone, password;
+    private EditText login_phone;
+    private EditText login_password;
+    private String phone, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +21,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         login_phone = (EditText) findViewById(R.id.login_phone_edt);
         login_password = (EditText) findViewById(R.id.login_password_edt);
-
     }
 
     public void login(View view) {
