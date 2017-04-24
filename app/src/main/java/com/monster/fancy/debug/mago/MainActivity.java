@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, AdressListActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.logout_text:
+                intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
     }
 

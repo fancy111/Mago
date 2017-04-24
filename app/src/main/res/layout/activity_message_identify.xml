@@ -16,7 +16,7 @@
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/back_btn"
+                android:onClick="back"
                 style="@style/imageBtnStyle"
                 android:src="@drawable/back_icon" />
 
@@ -41,7 +41,7 @@
         android:layout_marginRight="15dp"
         android:text="@string/resend"/>
     <Button
-        android:id="@+id/identify_nextStep_btn"
+        android:onClick="nextStep"
         style="@style/BtnStyle"
         android:text="@string/nextStep"/>
 </LinearLayout>

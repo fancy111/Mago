@@ -16,7 +16,7 @@
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/back_btn"
+                android:onClick="back"
                 style="@style/imageBtnStyle"
                 android:src="@drawable/back_icon" />
 
@@ -48,7 +48,7 @@
         android:drawablePadding="4dp"
         android:hint="@string/passwordConfirm_hint"/>
     <Button
-        android:id="@+id/reg_nextStep_btn"
+        android:onClick="nextStep"
         style="@style/BtnStyle"
         android:text="@string/nextStep"/>
 </LinearLayout>
