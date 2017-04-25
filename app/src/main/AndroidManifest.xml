@@ -3,6 +3,7 @@
     package="com.monster.fancy.debug.mago">
 
     <application
+        android:name="com.monster.fancy.debug.dao.MyApp"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
