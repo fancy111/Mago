@@ -10,6 +10,12 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
+        // added by rushzhou 2017/4/24 for Gaode API
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64"
+        }
     }
     buildTypes {
         release {
@@ -25,6 +31,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile files('libs/pinyin4j-2.5.0.jar')
     compile 'com.google.firebase:firebase-core:9.6.1'
+
+    // added by rushzhou 2017/4/24 for Gaode API
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // navigation SDK
+    compile 'com.amap.api:navi-3dmap:latest.integration'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
