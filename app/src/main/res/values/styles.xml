@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/basicColor</item>
         <item name="colorPrimaryDark">@color/basicColorDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowAnimationStyle">@style/Animation_Activity</item>
     </style>
     
     <style name="BtnStyle">
@@ -59,6 +60,14 @@
         <item name="android:background">#0000</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--the animation of the page jump-->
+    <style name="Animation_Activity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/leftin</item>
+        <item name="android:activityOpenExitAnimation">@anim/rightout</item>
+        <item name="android:activityCloseEnterAnimation">@anim/rightin</item>
+        <item name="android:activityCloseExitAnimation">@anim/leftout</item>
     </style>
 
 </resources>

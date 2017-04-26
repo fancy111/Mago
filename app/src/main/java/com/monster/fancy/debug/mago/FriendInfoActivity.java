@@ -12,7 +12,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.monster.fancy.debug.dao.User;
+import com.monster.fancy.debug.dao.Friend;
+
 
 public class FriendInfoActivity extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class FriendInfoActivity extends AppCompatActivity {
 
         //accept the parameter from address_list page
         Intent intent = this.getIntent();
-        final User friend = (User) intent.getSerializableExtra("friend");
+        final Friend friend = (Friend) intent.getSerializableExtra("friend");
         //set the friend information
         setFriendInfo(friend);
 
@@ -51,8 +52,8 @@ public class FriendInfoActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //if user click the button to true,then set this friend to star
                 if(isChecked) {
-                    friend.setUserStar(true);
-                    Toast.makeText(getApplicationContext(),friend.isUserStar()+"",Toast.LENGTH_SHORT).show();
+                    friend.setStarFriend(true);
+                    Toast.makeText(getApplicationContext(), friend.isStarFriend() + "", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -74,21 +75,21 @@ public class FriendInfoActivity extends AppCompatActivity {
     }
 
     //set the basic information of the friend in the layout
-    private void setFriendInfo(User friend) {
-        if (friend.getUserNickName() != null)
-            nickname_textview.setText(friend.getUserNickName());
+    private void setFriendInfo(Friend friend) {
+        if (friend.getNickName() != null)
+            nickname_textview.setText(friend.getNickName());
 
-        if (friend.getUserRealName() != null)
-            realname_textview.setText(friend.getUserRealName());
+        if (friend.getRealName() != null)
+            realname_textview.setText(friend.getRealName());
 
-        if (friend.getUserPhone() != null)
-            phone_textview.setText(friend.getUserPhone());
+        if (friend.getPhone() != null)
+            phone_textview.setText(friend.getPhone());
 
-        if (friend.getUserRemark() != null)
-            remark_textview.setText(friend.getUserRemark());
+        if (friend.getRemark() != null)
+            remark_textview.setText(friend.getRemark());
 
-        if (friend.getUserSignature() != null)
-            signature_textview.setText(friend.getUserSignature());
+        if (friend.getSignature() != null)
+            signature_textview.setText(friend.getSignature());
 
     }
 

@@ -1,99 +1,93 @@
 package com.monster.fancy.debug.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by fancy on 2017/4/21.
  */
 public class User implements Serializable {
     private int userID;
-    private boolean userStar;//star friend
     private String photoUrl;
-    private String userRemark;
-    private String userNickName;
-    private String userRealName;
-    private String userSignature;
-    private String userGender;
-    private String userPhone;
-    private String sortLetter;
+    private String nickName;
+    private String realName;
+    private String signature;
+    private String gender;
+    private String phone;
+    private String password;
+    private List<Friend> friendList;
 
-    public String getSortLetter() {
-        return sortLetter;
-    }
+    //setters and getters
 
-    public int getUserID() {
-        return userID;
-    }
-
-    public boolean isUserStar() {
-        return userStar;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public String getUserRemark() {
-        return userRemark;
-    }
-
-    public String getUserNickName() {
-        return userNickName;
-    }
-
-    public String getUserRealName() {
-        return userRealName;
-    }
-
-    public String getUserSignature() {
-        return userSignature;
-    }
-
-    public String getUserGender() {
-        return userGender;
-    }
-
-    public String getUserPhone() {
-        return userPhone;
+    public void setFriendList(List<Friend> friendList) {
+        this.friendList = friendList;
     }
 
     public void setUserID(int userID) {
         this.userID = userID;
     }
 
-    public void setUserStar(boolean userStar) {
-        this.userStar = userStar;
-    }
-
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
 
-    public void setUserRemark(String userRemark) {
-        this.userRemark = userRemark;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
-    public void setUserNickName(String userNickName) {
-        this.userNickName = userNickName;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
-    public void setUserRealName(String userRealName) {
-        this.userRealName = userRealName;
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
-    public void setUserSignature(String userSignature) {
-        this.userSignature = userSignature;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public void setUserGender(String userGender) {
-        this.userGender = userGender;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setSortLetter(String sortLetter) {
-        this.sortLetter = sortLetter;
+    public int getUserID() {
+        return userID;
+    }
+
+    public List<Friend> getFriendList() {
+        return friendList;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.monster.fancy.debug.adapter.UserFriendListAdapter;
-import com.monster.fancy.debug.dao.User;
+import com.monster.fancy.debug.dao.Friend;
 import com.monster.fancy.debug.util.CharacterParser;
 import com.monster.fancy.debug.util.PinyinComparator;
 import com.monster.fancy.debug.view.SideBar;
@@ -36,7 +36,7 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
 
     private PinyinComparator pinyinComparator;// 根据拼音来排列ListView里面的数据类
 
-    private List<User> sortDataList = new ArrayList<User>();
+    private List<Friend> sortDataList = new ArrayList<Friend>();
 
     private UserFriendListAdapter friendListAdapter;
 
@@ -52,7 +52,7 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
         friend_lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                User friend = sortDataList.get(position);
+                Friend friend = sortDataList.get(position);
                 Intent intent = new Intent(AdressListActivity.this, FriendInfoActivity.class);
                 intent.putExtra("friend", friend);
                 startActivity(intent);
@@ -72,44 +72,44 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
         characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
 
-        User friend1 = new User();
-        friend1.setUserNickName("大屁");
+        Friend friend1 = new Friend();
+        friend1.setNickName("大屁");
         friend1.setSortLetter("d");
 
-        User friend2 = new User();
-        friend2.setUserNickName("猴子");
+        Friend friend2 = new Friend();
+        friend2.setNickName("猴子");
         friend2.setSortLetter("h");
 
-        User friend3 = new User();
-        friend3.setUserNickName("鱼鱼");
+        Friend friend3 = new Friend();
+        friend3.setNickName("鱼鱼");
         friend3.setSortLetter("y");
 
-        User friend4 = new User();
-        friend4.setUserNickName("东东");
+        Friend friend4 = new Friend();
+        friend4.setNickName("东东");
         friend4.setSortLetter("d");
 
-        User friend5 = new User();
-        friend5.setUserNickName("孙子");
+        Friend friend5 = new Friend();
+        friend5.setNickName("孙子");
         friend5.setSortLetter("s");
 
-        User friend6 = new User();
-        friend6.setUserNickName("阿皮");
+        Friend friend6 = new Friend();
+        friend6.setNickName("阿皮");
         friend6.setSortLetter("a");
 
-        User friend7 = new User();
-        friend7.setUserNickName("小鱼儿");
+        Friend friend7 = new Friend();
+        friend7.setNickName("小鱼儿");
         friend7.setSortLetter("x");
 
-        User friend8 = new User();
-        friend8.setUserNickName("笔笔");
+        Friend friend8 = new Friend();
+        friend8.setNickName("笔笔");
         friend8.setSortLetter("b");
 
-        User friend9 = new User();
-        friend9.setUserNickName("丢丢");
+        Friend friend9 = new Friend();
+        friend9.setNickName("丢丢");
         friend9.setSortLetter("d");
 
-        User friend10 = new User();
-        friend10.setUserNickName("西瓜");
+        Friend friend10 = new Friend();
+        friend10.setNickName("西瓜");
         friend10.setSortLetter("x");
 
         sortDataList.add(friend1);
@@ -132,14 +132,14 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
     }
 
     //fill the data in the list
-    private void fillData(List<User> list) {
-        for (User friendInfo : list) {
-            if (friendInfo != null && friendInfo.getUserNickName() != null) {
-                String pinyin = characterParser.getSelling(friendInfo.getUserNickName());
+    private void fillData(List<Friend> list) {
+        for (Friend friendInfo : list) {
+            if (friendInfo != null && friendInfo.getNickName() != null) {
+                String pinyin = characterParser.getSelling(friendInfo.getNickName());
 
                 String sortString = pinyin.substring(0, 1).toUpperCase();
 
-                if (friendInfo.isUserStar()) {// if is a star friend
+                if (friendInfo.isStarFriend()) {// if is a star friend
                     friendInfo.setSortLetter("☆");
                 } else if (sortString.matches("[A-Z]")) {// if the first character is the english
                     friendInfo.setSortLetter(sortString);
@@ -178,15 +178,15 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
 
     }
 
-    private void filterData(String filterStr, List<User> list) {
-        List<User> filterDateList = new ArrayList<User>();
+    private void filterData(String filterStr, List<Friend> list) {
+        List<Friend> filterDateList = new ArrayList<Friend>();
 
         if (TextUtils.isEmpty(filterStr)) {
             filterDateList = list;
         } else {
             filterDateList.clear();
-            for (User sortModel : list) {
-                String name = sortModel.getUserNickName();
+            for (Friend sortModel : list) {
+                String name = sortModel.getNickName();
                 if (name.indexOf(filterStr.toString()) != -1 || characterParser.getSelling(name).startsWith(filterStr.toString())) {
                     filterDateList.add(sortModel);
                 }
