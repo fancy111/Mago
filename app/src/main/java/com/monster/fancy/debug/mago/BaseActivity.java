@@ -34,25 +34,19 @@ import java.util.List;
 public class BaseActivity extends Activity implements AMapNaviListener, AMapNaviViewListener {
     protected AMapNaviView mAMapNaviView;
     protected AMapNavi mAMapNavi;
-//    protected TTSController mTtsManager;
     protected NaviLatLng mEndLatlng = new NaviLatLng(40.084894,116.603039);
     protected NaviLatLng mStartLatlng = new NaviLatLng(39.825934,116.342972);
-    protected final List<NaviLatLng> sList = new ArrayList<NaviLatLng>();
-    protected final List<NaviLatLng> eList = new ArrayList<NaviLatLng>();
+    protected final List<NaviLatLng> sList = new ArrayList<>();
+    protected final List<NaviLatLng> eList = new ArrayList<>();
     protected List<NaviLatLng> mWayPointList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //实例化语音引擎
-//        mTtsManager = TTSController.getInstance(getApplicationContext());
-//        mTtsManager.init();
 
-        //
         mAMapNavi = AMapNavi.getInstance(getApplicationContext());
         mAMapNavi.addAMapNaviListener(this);
-//        mAMapNavi.addAMapNaviListener(mTtsManager);
 
         //设置模拟导航的行车速度
         mAMapNavi.setEmulatorNaviSpeed(75);
@@ -70,12 +64,6 @@ public class BaseActivity extends Activity implements AMapNaviListener, AMapNavi
     protected void onPause() {
         super.onPause();
         mAMapNaviView.onPause();
-
-//        仅仅是停止你当前在说的这句话，一会到新的路口还是会再说的
-//        mTtsManager.stopSpeaking();
-//
-//        停止导航之后，会触及底层stop，然后就不会再有回调了，但是讯飞当前还是没有说完的半句话还是会说完
-//        mAMapNavi.stopNavi();
     }
 
     @Override
@@ -85,7 +73,6 @@ public class BaseActivity extends Activity implements AMapNaviListener, AMapNavi
         //since 1.6.0 不再在naviview destroy的时候自动执行AMapNavi.stopNavi();请自行执行
         mAMapNavi.stopNavi();
         mAMapNavi.destroy();
-//        mTtsManager.destroy();
     }
 
     @Override

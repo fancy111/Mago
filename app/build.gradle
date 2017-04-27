@@ -36,6 +36,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // navigation SDK
     compile 'com.amap.api:navi-3dmap:latest.integration'
+    // location SDK
+    compile 'com.amap.api:location:latest.integration'
 
 }
 
