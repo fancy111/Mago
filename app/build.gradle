@@ -2,7 +2,17 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '25.0.2'
+
+    //---------------------added by fancy at 2017/4/27 for leancloud-------------------
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    lintOptions {
+        abortOnError false
+    }
+    //--------------------------------------------------------------------
 
     defaultConfig {
         applicationId "com.monster.fancy.debug.mago"
@@ -14,7 +24,7 @@ android {
         // added by rushzhou 2017/4/24 for Gaode API
         ndk {
             //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64"
         }
     }
     buildTypes {
@@ -27,16 +37,34 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.2.0'
     compile files('libs/pinyin4j-2.5.0.jar')
-    compile 'com.google.firebase:firebase-core:9.6.1'
-
     // added by rushzhou 2017/4/24 for Gaode API
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     // navigation SDK
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.amap.api:navi-3dmap:latest.integration'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
 
+    //---------------------added by fancy at 2017/4/27 for leancloud---------
+    // LeanCloud 基础包
+    compile('cn.leancloud.android:avoscloud-sdk:v3.+')
+
+    // 推送与实时聊天需要的包
+    compile('cn.leancloud.android:avoscloud-push:v3.+@aar') { transitive = true }
+
+    // LeanCloud 统计包
+    compile('cn.leancloud.android:avoscloud-statistics:v3.+')
+
+    // LeanCloud 用户反馈包
+    compile('cn.leancloud.android:avoscloud-feedback:v3.+@aar')
+
+    // avoscloud-sns：LeanCloud 第三方登录包
+    //compile ('cn.leancloud.android:avoscloud-sns:v3.+@aar')
+    //compile ('cn.leancloud.android:qq-sdk:1.6.1-leancloud')
+
+    // LeanCloud 应用内搜索包
+    //compile ('cn.leancloud.android:avoscloud-search:v3.+@aar')
+    //------------------------------------------------------------
+
+    testCompile 'junit:junit:4.12'
 }
-
-apply plugin: 'com.google.gms.google-services'

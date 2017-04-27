@@ -104,18 +104,18 @@
             android:drawablePadding="20dp" />
 
         <TextView
-            android:id="@+id/message_text"
+            android:id="@+id/callrecord_text"
             android:onClick="pageJump"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/message"
+            android:text="@string/callRecord"
             android:textColor="#8a8a8a"
             android:textSize="20sp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:paddingRight="10dp"
-            android:drawableLeft="@drawable/message_icon"
+            android:drawableLeft="@drawable/callrecord_icon"
             android:drawablePadding="20dp" />
 
         <TextView

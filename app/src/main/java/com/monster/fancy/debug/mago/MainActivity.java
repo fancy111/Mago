@@ -5,16 +5,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.help_text:
-                intent = new Intent(MainActivity.this, AdressListActivity.class);
+                intent = new Intent(MainActivity.this, SystemHelpActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.message_text:
-                intent = new Intent(MainActivity.this, AdressListActivity.class);
+            case R.id.callrecord_text:
+                intent = new Intent(MainActivity.this, CallRecordsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.logout_text:

@@ -33,6 +33,18 @@
     <string name="addFriend">添加好友</string>
     <string name="close">关</string>
     <string name="open">开</string>
+    <string name="inputthephonenumber">输入好友的手机号</string>
+    <string name="logo">logo</string>
+    <string name="functionDescription">功能介绍</string>
+    <string name="teamIntro">团队介绍</string>
+    <string name="likeUs">喜欢我们，打分鼓励</string>
+    <string name="systemhelp">系统帮助</string>
+    <string name="callRecord">通话记录</string>
+    <string name="error_invalid_password">密码格式不正确</string>
+    <string name="error_invalid_mobile_phone">非有效的手机号</string>
+    <string name="error_notequal_password">密码不匹配</string>
+    <string name="error_wrong_sms_code">验证码错误</string>
+    <string name="error_invalid_sms_code_format">验证码格式错误</string>
 
 
 </resources>
