@@ -27,6 +27,13 @@
     </android.support.v7.widget.Toolbar>
 
     <EditText
+        android:id="@+id/reg_username_edt"
+        style="@style/edtTextStyle"
+        android:drawableLeft="@drawable/username_icon"
+        android:drawablePadding="4dp"
+        android:hint="@string/pleaseInputUsername" />
+
+    <EditText
         android:id="@+id/reg_phone_edt"
         style="@style/edtTextStyle"
         android:inputType="phone"

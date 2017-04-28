@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.monster.fancy.debug.mago.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -30,13 +35,21 @@
         android:adjustViewBounds="true"
         android:src="@drawable/logo"
         android:contentDescription="@string/logo" />
-    <EditText
+
+        <AutoCompleteTextView
         android:id="@+id/login_phone_edt"
         style="@style/edtTextStyle"
         android:drawableStart="@drawable/login_icon"
         android:drawablePadding="4dp"
         android:hint="@string/phone_hint"
-        android:inputType="phone" />
+            android:inputType="phone" />
+        <!--<EditText-->
+        <!--android:id="@+id/login_phone_edt"-->
+        <!--style="@style/edtTextStyle"-->
+        <!--android:drawableStart="@drawable/login_icon"-->
+        <!--android:drawablePadding="4dp"-->
+        <!--android:hint="@string/phone_hint"-->
+        <!--android:inputType="phone" />-->
     <EditText
         android:id="@+id/login_password_edt"
         style="@style/edtTextStyle"
@@ -58,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/textColor_gray"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginStart="15dp"
         android:text="@string/forgetPassword"/>
 
@@ -67,9 +80,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/textColor_gray"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_marginEnd="15dp"
         android:text="@string/registerNow"/>
 </RelativeLayout>
+    </LinearLayout>
 
-</LinearLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mProgressView"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
+</RelativeLayout>
