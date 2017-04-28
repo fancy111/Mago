@@ -30,6 +30,10 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.navi.AMapNavi;
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.SaveCallback;
 
 public class MainActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
 
@@ -56,6 +60,20 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 初始化参数依次为 this, AppId, AppKey
+        AVOSCloud.initialize(this,"xRBlai1ATNmdmRvpFtzOO4fj-gzGzoHsz","D4hgUa86CD1X0WJ7bsbOkyc3");
+        // 测试 LeanCloud SDK 是否正常工作的代码
+//        AVObject testObject = new AVObject("TestObject");
+//        testObject.put("words","Hello World!");
+//        testObject.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(AVException e) {
+//                if(e == null){
+//                    Log.d("saved","success!");
+//                }
+//            }
+//        });
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
