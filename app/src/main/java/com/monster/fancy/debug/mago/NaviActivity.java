@@ -1,18 +1,33 @@
 package com.monster.fancy.debug.mago;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviView;
 import com.amap.api.navi.enums.NaviType;
+import com.amap.api.navi.model.NaviLatLng;
 
 /**
  * Created by rushzhou on 4/24/17.
  */
 
 public class NaviActivity extends BaseActivity{
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAMapNavi = AMapNavi.getInstance(this);
+        mAMapNavi.addAMapNaviListener(this);
+        mAMapNavi.setEmulatorNaviSpeed(150);
+
+        double[] locations = getIntent().getDoubleArrayExtra("EXTRA_LOCATIONS");
+        mLatitude = locations[0];
+        mLongitude = locations[1];
+        mFriendLatitude = locations[2];
+        mFriendLongitude = locations[3];
 
         setContentView(R.layout.activity_navi);
         mAMapNaviView = (AMapNaviView) findViewById(R.id.navi_view);
@@ -21,35 +36,33 @@ public class NaviActivity extends BaseActivity{
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mAMapNaviView.onResume();
+        mAMapNavi.calculateWalkRoute(new NaviLatLng(mLatitude, mLongitude), new NaviLatLng(mFriendLatitude, mFriendLongitude));
+    }
+
+    @Override
     public void onInitNaviSuccess() {
         super.onInitNaviSuccess();
-        /**
-         * 方法: int strategy=mAMapNavi.strategyConvert(congestion, avoidhightspeed, cost, hightspeed, multipleroute); 参数:
-         *
-         * @congestion 躲避拥堵
-         * @avoidhightspeed 不走高速
-         * @cost 避免收费
-         * @hightspeed 高速优先
-         * @multipleroute 多路径
-         *
-         *  说明: 以上参数都是boolean类型，其中multipleroute参数表示是否多条路线，如果为true则此策略会算出多条路线。
-         *  注意: 不走高速与高速优先不能同时为true 高速优先与避免收费不能同时为true
-         */
-        int strategy = 0;
-        try {
-            //再次强调，最后一个参数为true时代表多路径，否则代表单路径
-            strategy = mAMapNavi.strategyConvert(true, false, false, false, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mAMapNavi.setCarNumber("京", "DFZ588");
-        mAMapNavi.calculateDriveRoute(sList, eList, mWayPointList, strategy);
-
+        mAMapNavi.calculateWalkRoute(new NaviLatLng(mLatitude, mLongitude), new NaviLatLng(mFriendLatitude, mFriendLongitude));
     }
 
     @Override
     public void onCalculateRouteSuccess() {
         super.onCalculateRouteSuccess();
         mAMapNavi.startNavi(NaviType.GPS);
+    }
+
+    // button listener
+    public void startHud(View view) {
+        Intent intent = new Intent(getBaseContext(), HudActivity.class);
+        double[] locations = new double[4];
+        locations[0] = mLatitude;
+        locations[1] = mLongitude;
+        locations[2] = mFriendLatitude;
+        locations[3] = mFriendLongitude;
+        intent.putExtra("EXTRA_LOCATIONS", locations);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.monster.fancy.debug.mago;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,6 +11,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -39,7 +41,6 @@ import com.amap.api.navi.model.AimLessModeCongestionInfo;
 import com.amap.api.navi.model.AimLessModeStat;
 import com.amap.api.navi.model.NaviInfo;
 import com.amap.api.navi.model.NaviLatLng;
-import com.amap.api.navi.model.RouteOverlayOptions;
 import com.amap.api.navi.view.RouteOverLay;
 import com.autonavi.tbt.TrafficFacilityInfo;
 
@@ -52,6 +53,7 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
     private AMap mAMap;
     private MapView mMapView;
     private TextView tvResult;
+    private Button mStartNaivBtn;
 
     private AMapLocationClient mLocationClient;
     private OnLocationChangedListener mListener;
@@ -80,6 +82,7 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         mMapView.onCreate(savedInstanceState);
         tvResult = (TextView) findViewById(R.id.tv_result);
         tvResult.setVisibility(View.GONE);
+        mStartNaivBtn = (Button) findViewById(R.id.start_naiv_btn);
 
         // generate custom marker using user photo
         Bitmap src = BitmapFactory.decodeResource(getResources(), R.drawable.photo);
@@ -160,6 +163,14 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         marker = mAMap.addMarker(new MarkerOptions()
                 .icon(mBitmapDescriptor)
                 .anchor(0.5f, 1));
+        friendMarker = mAMap.addMarker(new MarkerOptions()
+                .icon(mFriendBitmapDescriptor)
+                .anchor(0.5f, 1));
+        // setup navigation listener
+        //获取AMapNavi实例
+        mAMapNavi = AMapNavi.getInstance(getApplicationContext());
+        //添加监听回调，用于处理算路成功
+        mAMapNavi.addAMapNaviListener(this);
     }
 
     @Override
@@ -206,6 +217,7 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
                 mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
                 // 显示marker
                 marker.setPosition(latLng);
+                friendMarker.setPosition(friendLatLng);
 
                 String gpsText = "定位: " + aMapLocation.getLatitude() + ", " + aMapLocation.getLongitude();
                 tvResult.setVisibility(View.VISIBLE);
@@ -261,27 +273,24 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
     }
 
     // Button listeners
-    public void onFriendAnswerCall(View view) {
-        friendMarker = mAMap.addMarker(new MarkerOptions()
-                .position(friendLatLng)
-                .icon(mFriendBitmapDescriptor)
-                .anchor(0.5f, 1));
-
-        //获取AMapNavi实例
-        mAMapNavi = AMapNavi.getInstance(getApplicationContext());
-        //添加监听回调，用于处理算路成功
-        mAMapNavi.addAMapNaviListener(this);
-
-    }
-    // Button listeners
     public void startNavigation(View view) {
-
+        Intent intent = new Intent(getBaseContext(), NaviActivity.class);
+        double[] locations = new double[4];
+        locations[0] = mLatitude;
+        locations[1] = mLongitude;
+        locations[2] = mFriendLatitude;
+        locations[3] = mFriendLongitude;
+        intent.putExtra("EXTRA_LOCATIONS", locations);
+        startActivity(intent);
     }
 
     // methods to implement because of AMapNaviListener
     @Override
     public void onInitNaviFailure() {
-
+        String errText = "InitNaviFailure";
+        Log.e("AmapErr", errText);
+        tvResult.setVisibility(View.VISIBLE);
+        tvResult.setText(errText);
     }
 
     @Override
@@ -301,7 +310,7 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
 
     @Override
     public void onLocationChange(AMapNaviLocation aMapNaviLocation) {
-
+        // mAMapNavi.calculateWalkRoute(aMapNaviLocation.getCoord(), new NaviLatLng(mFriendLatitude, mFriendLongitude));
     }
 
     @Override
@@ -329,11 +338,15 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         routeOverLay.removeFromMap();
         routeOverLay.addToMap();
         // routeOverLay.zoomToSpan();
+        mStartNaivBtn.setEnabled(true);
     }
 
     @Override
     public void onCalculateRouteFailure(int i) {
-
+        String errText = "CalculateRouteFailure";
+        Log.e("AmapErr", errText);
+        tvResult.setVisibility(View.VISIBLE);
+        tvResult.setText(errText);
     }
 
     @Override
@@ -353,7 +366,12 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
 
     @Override
     public void onGpsOpenStatus(boolean b) {
-
+        if(!b){
+            String errText = "Gps closed";
+            Log.e("AmapErr", errText);
+            tvResult.setVisibility(View.VISIBLE);
+            tvResult.setText(errText);
+        }
     }
 
     @Override

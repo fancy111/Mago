@@ -1,11 +1,10 @@
 package com.monster.fancy.debug.mago;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
 import android.widget.Toast;
 
+import com.amap.api.navi.AMapHudViewListener;
 import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviListener;
 import com.amap.api.navi.AMapNaviView;
@@ -20,39 +19,20 @@ import com.amap.api.navi.model.AMapServiceAreaInfo;
 import com.amap.api.navi.model.AimLessModeCongestionInfo;
 import com.amap.api.navi.model.AimLessModeStat;
 import com.amap.api.navi.model.NaviInfo;
-import com.amap.api.navi.model.NaviLatLng;
 import com.autonavi.tbt.TrafficFacilityInfo;
 import com.monster.fancy.debug.util.ErrorInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by rushzhou on 4/24/17.
  */
 
-public class BaseActivity extends Activity implements AMapNaviListener, AMapNaviViewListener {
+public class BaseActivity extends Activity implements AMapNaviListener, AMapNaviViewListener, AMapHudViewListener {
     protected AMapNaviView mAMapNaviView;
     protected AMapNavi mAMapNavi;
-    protected NaviLatLng mEndLatlng = new NaviLatLng(40.084894,116.603039);
-    protected NaviLatLng mStartLatlng = new NaviLatLng(39.825934,116.342972);
-    protected final List<NaviLatLng> sList = new ArrayList<>();
-    protected final List<NaviLatLng> eList = new ArrayList<>();
-    protected List<NaviLatLng> mWayPointList;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        mAMapNavi = AMapNavi.getInstance(getApplicationContext());
-        mAMapNavi.addAMapNaviListener(this);
-
-        //设置模拟导航的行车速度
-        mAMapNavi.setEmulatorNaviSpeed(75);
-        sList.add(mStartLatlng);
-        eList.add(mEndLatlng);
-    }
+    protected double mFriendLatitude;
+    protected double mFriendLongitude;
+    protected double mLatitude;
+    protected double mLongitude;
 
     @Override
     protected void onResume() {
@@ -295,5 +275,10 @@ public class BaseActivity extends Activity implements AMapNaviListener, AMapNavi
     @Override
     public boolean onNaviBackClick() {
         return false;
+    }
+
+    @Override
+    public void onHudViewCancel() {
+
     }
 }
