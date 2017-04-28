@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "378989464890-jk70rnsv5tvqivl0b02mad0hksf4ddet.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.monster.fancy.debug.mago",
+            "certificate_hash": "09361ea2751e46d9d14b2e7382636be4619ee3b5"
+          }
+        },
+        {
           "client_id": "378989464890-om5vlds564m98f2i6j0t91rd6peap4ae.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -33,7 +33,22 @@
     <string name="addFriend">添加好友</string>
     <string name="close">关</string>
     <string name="open">开</string>
-    <!-- added by rushzhou 2017/04/27 -->
+    <string name="inputthephonenumber">输入好友的手机号</string>
+    <string name="logo">logo</string>
+    <string name="functionDescription">功能介绍</string>
+    <string name="teamIntro">团队介绍</string>
+    <string name="likeUs">喜欢我们，打分鼓励</string>
+    <string name="systemhelp">系统帮助</string>
+    <string name="callRecord">通话记录</string>
+    <string name="error_invalid_password">密码格式不正确</string>
+    <string name="error_invalid_mobile_phone">非有效的手机号</string>
+    <string name="error_notequal_password">密码不匹配</string>
+    <string name="error_wrong_sms_code">验证码错误</string>
+    <string name="error_invalid_sms_code_format">验证码格式错误</string>
+    <string name="pleaseInputUsername">请输入用户名</string>
+    <string name="error_empty_username">请输入用户名</string>
+    <string name="error_invalid_phone_or_password">号码或密码错误</string>
+    <!-- added by rushzhou on 2017/04/27 -->
     <string name="notifyTitle">提示</string>
     <string name="notifyMsg">当前应用缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。</string>
     <string name="settings">设置</string>

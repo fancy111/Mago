@@ -13,4 +13,5 @@
     <color name="deleteRed">#cc0000</color>
     <color name="deleteRedDark">#A60000</color>
     <color name="transparent">#0000</color>
+    <color name="foreGray">#9a9a9a</color>
 </resources>

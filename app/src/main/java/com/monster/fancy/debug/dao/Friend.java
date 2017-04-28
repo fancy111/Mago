@@ -1,34 +1,41 @@
 package com.monster.fancy.debug.dao;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * Created by fancy on 2017/4/21.
+ * Created by fancy on 2017/4/24.
  */
-public class User implements Serializable {
-    private int userID;
+public class Friend implements Serializable {
+    private int friendID;
+    private boolean starFriend;//star friend
     private String photoUrl;
+    private String remark;
     private String nickName;
     private String realName;
     private String signature;
     private String gender;
     private String phone;
-    private String password;
-    private List<Friend> friendList;
+    private String letter;
+    private String sortLetter;
 
-    //setters and getters
-
-    public void setFriendList(List<Friend> friendList) {
-        this.friendList = friendList;
+    public void setSortLetter(String sortLetter) {
+        this.sortLetter = sortLetter;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setFriendID(int friendID) {
+        this.friendID = friendID;
+    }
+
+    public void setStarFriend(boolean starFriend) {
+        this.starFriend = starFriend;
     }
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public void setNickName(String nickName) {
@@ -51,20 +58,24 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setLetter(String letter) {
+        this.letter = letter;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getFriendID() {
+        return friendID;
     }
 
-    public List<Friend> getFriendList() {
-        return friendList;
+    public boolean isStarFriend() {
+        return starFriend;
     }
 
     public String getPhotoUrl() {
         return photoUrl;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
     public String getNickName() {
@@ -87,7 +98,11 @@ public class User implements Serializable {
         return phone;
     }
 
-    public String getPassword() {
-        return password;
+    public String getLetter() {
+        return letter;
+    }
+
+    public String getSortLetter() {
+        return sortLetter;
     }
 }

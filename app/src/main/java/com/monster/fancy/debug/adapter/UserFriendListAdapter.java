@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.monster.fancy.debug.dao.User;
+import com.monster.fancy.debug.dao.Friend;
 import com.monster.fancy.debug.mago.R;
 
 import java.util.List;
@@ -23,16 +23,16 @@ public class UserFriendListAdapter extends BaseAdapter implements SectionIndexer
 
     private LayoutInflater inflater;
     private Activity myActivity;
-    private List<User> friendList;
+    private List<Friend> friendList;
 
-    public UserFriendListAdapter(Activity myActivity, List<User> friendList) {
+    public UserFriendListAdapter(Activity myActivity, List<Friend> friendList) {
         this.myActivity = myActivity;
         this.friendList = friendList;
     }
 
 
     //using when listView content changed
-    public void updateListView(List<User> friendList) {
+    public void updateListView(List<Friend> friendList) {
         this.friendList = friendList;
         notifyDataSetChanged();
     }
@@ -69,21 +69,21 @@ public class UserFriendListAdapter extends BaseAdapter implements SectionIndexer
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        final User user = friendList.get(position);
+        final Friend friend = friendList.get(position);
 
-        if (user != null) {
+        if (friend != null) {
             // 根据position获取分类的首字母的Char ascii值
             int section = getSectionForPosition(position);
             // 如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
             if (position == getPositionForSection(section)) {
                 viewHolder.tvLetter.setVisibility(View.VISIBLE);
-                viewHolder.tvLetter.setText("☆".equals(user.getSortLetter()) ? user.getSortLetter() + "(星标朋友)" : user.getSortLetter());
+                viewHolder.tvLetter.setText("☆".equals(friend.getSortLetter()) ? friend.getSortLetter() + "(星标朋友)" : friend.getSortLetter());
                 viewHolder.tvLine.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.tvLetter.setVisibility(View.GONE);
                 viewHolder.tvLine.setVisibility(View.GONE);
             }
-            viewHolder.tvTitle.setText(user.getUserNickName());
+            viewHolder.tvTitle.setText(friend.getNickName());
         }
         return convertView;
     }

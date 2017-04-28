@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backGray"
+    tools:context="com.monster.fancy.debug.mago.SystemHelpActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basicColor">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:onClick="back"
+                style="@style/imageBtnStyle"
+                android:src="@drawable/back_icon" />
+
+            <TextView
+                style="@style/textViewToolBarStyle"
+                android:text="@string/systemhelp" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:maxHeight="110dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/logo" />
+
+    <TextView
+        style="@style/textViewStyle_profile"
+        android:layout_gravity="center_horizontal"
+        android:text="V1.0.0" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="14dp"
+        android:layout_alignParentLeft="true"
+        android:background="@color/ivory"
+        android:textSize="18sp"
+        android:textColor="@color/textColor_gray"
+        android:drawableRight="@drawable/rightarrow_icon"
+        android:text="@string/functionDescription" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/foreGray" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="14dp"
+        android:layout_alignParentLeft="true"
+        android:background="@color/ivory"
+        android:textSize="18sp"
+        android:textColor="@color/textColor_gray"
+        android:drawableRight="@drawable/rightarrow_icon"
+        android:text="@string/teamIntro" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/foreGray" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="14dp"
+        android:layout_alignParentLeft="true"
+        android:background="@color/ivory"
+        android:textSize="18sp"
+        android:textColor="@color/textColor_gray"
+        android:drawableRight="@drawable/rightarrow_icon"
+        android:text="@string/likeUs" />
+</LinearLayout>

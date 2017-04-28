@@ -29,17 +29,15 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.amap.api.navi.AMapNavi;
-import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVOSCloud;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.SaveCallback;
+import com.avos.avoscloud.AVUser;
 
 public class MainActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
 
 
     private DrawerLayout mDrawerLayout;
     private LinearLayout mDrawer;
+    private TextView username_text;
 
     private AMap mAMap;
     private MapView mMapView;
@@ -269,14 +267,15 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
                 startActivity(intent);
                 break;
             case R.id.help_text:
-                intent = new Intent(MainActivity.this, AdressListActivity.class);
+                intent = new Intent(MainActivity.this, SystemHelpActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.message_text:
-                intent = new Intent(MainActivity.this, AdressListActivity.class);
+            case R.id.callrecord_text:
+                intent = new Intent(MainActivity.this, CallRecordsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.logout_text:
+                AVUser.logOut();
                 intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
