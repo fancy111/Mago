@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.monster.fancy.debug.mago.NaviActivity">
+    tools:context="com.monster.fancy.debug.mago.LocaActivity">
 
-    <com.amap.api.navi.AMapNaviView
-        android:id="@+id/navi_view"
+    <com.amap.api.maps.MapView
+        android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -18,14 +17,26 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/start_hud_btn"
+            android:id="@+id/start_naiv_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="startHud"
+            android:text="StartNavigation"
             android:textSize="16sp"
             android:textAllCaps="false"
-            android:onClick="startHud" />
+            android:onClick="startNavigation"
+            android:enabled="false"/>
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="#D999">
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
 </RelativeLayout>

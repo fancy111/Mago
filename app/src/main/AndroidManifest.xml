@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.monster.fancy.debug.mago">
 
+
+    <!-- Navigation permissions -->
     <!-- 用于访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
@@ -21,6 +23,32 @@
     <!-- 这个权限用于允许程序在手机屏幕关闭后后台进程仍然运行 -->
     <user-permission android:name="android.permission.WAKE_LOCK" />
 
+
+    <!-- Location permissions -->
+    <!-- Normal Permissions 不需要运行时注册 -->
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <!-- 不是SDK需要的权限，是示例中的后台唤醒定位需要的权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- 用于提高GPS定位速度 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 读取缓存数据 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 更改设置 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 3.2.0版本增加 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- 3.2.0版本增加 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <!-- LeanCloud permissons -->
+    <!-- 基础模块（必须加入以下声明）START -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 基础模块 END -->
+
     <application
         android:name="com.monster.fancy.debug.util.MyLeanCloudApp"
         android:allowBackup="true"
@@ -29,26 +57,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- 实时通信模块、推送（均需要加入以下声明） START -->
-        <!-- 实时通信模块、推送都要使用 PushService -->
-        <service android:name="com.avos.avoscloud.PushService" />
-        <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <!-- 实时通信模块、推送 END -->
-
-        <!-- 反馈组件（需要加入以下声明）START -->
-        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity"></activity>
-        <!-- 反馈组件 END -->
-
-
-        <activity android:name=".WelcomeActivity">
-
-            <!-- <activity android:name=".NaviActivity"> -->
+        <service android:name="com.amap.api.location.APSService" />
+        <!-- choose one below for debugging (rushzhou) -->
+         <activity android:name=".WelcomeActivity">
+        <!--<activity android:name=".LocaActivity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,15 +75,37 @@
         <activity android:name=".FriendInfoActivity" />
         <activity android:name=".AdressListActivity" />
         <activity android:name=".AddFriendActivity" />
+        <activity android:name=".HudActivity" />
         <activity android:name=".NaviActivity" />
-        <!-- <activity android:name=".WelcomeActivity"/> -->
+        <activity android:name=".CalleeActivity"/>
+        <activity android:name=".CallerActivity"/>
+
+        <!-- choose the other for debugging (rushzhou) -->
+         <activity android:name=".LocaActivity"/>
+        <!--<activity android:name=".WelcomeActivity" />-->
+
         <!-- Gaode key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="ae1585ee86c8460eddd0b330c17d0158" />
+            android:value="a2e08fe93712f3f2e1471771bd550230" />
 
-        <activity android:name=".SystemHelpActivity" />
-        <activity android:name=".CallRecordsActivity" />
+        <!-- LeanCloud -->
+        <!-- 实时通信模块、推送（均需要加入以下声明） START -->
+        <!-- 实时通信模块、推送都要使用 PushService -->
+        <service android:name="com.avos.avoscloud.PushService"/>
+        <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <!-- 实时通信模块、推送 END -->
+        <!-- 反馈组件（需要加入以下声明）START -->
+        <activity
+            android:name="com.avos.avoscloud.feedback.ThreadActivity" >
+        </activity>
+        <!-- 反馈组件 END -->
     </application>
 
 </manifest>

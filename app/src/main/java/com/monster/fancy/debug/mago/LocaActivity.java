@@ -9,10 +9,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -29,19 +28,32 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.avos.avoscloud.AVOSCloud;
-import com.avos.avoscloud.AVUser;
+import com.amap.api.navi.AMapNavi;
+import com.amap.api.navi.AMapNaviListener;
+import com.amap.api.navi.model.AMapLaneInfo;
+import com.amap.api.navi.model.AMapNaviCameraInfo;
+import com.amap.api.navi.model.AMapNaviCross;
+import com.amap.api.navi.model.AMapNaviInfo;
+import com.amap.api.navi.model.AMapNaviLocation;
+import com.amap.api.navi.model.AMapNaviTrafficFacilityInfo;
+import com.amap.api.navi.model.AMapServiceAreaInfo;
+import com.amap.api.navi.model.AimLessModeCongestionInfo;
+import com.amap.api.navi.model.AimLessModeStat;
+import com.amap.api.navi.model.NaviInfo;
+import com.amap.api.navi.model.NaviLatLng;
+import com.amap.api.navi.view.RouteOverLay;
+import com.autonavi.tbt.TrafficFacilityInfo;
 
-public class MainActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
+/**
+ * Created by rushzhou on 4/27/17.
+ */
 
-
-    private DrawerLayout mDrawerLayout;
-    private LinearLayout mDrawer;
-    private TextView username_text;
+public class LocaActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener, AMapNaviListener {
 
     private AMap mAMap;
     private MapView mMapView;
     private TextView tvResult;
+    private Button mStartNaivBtn;
 
     private AMapLocationClient mLocationClient;
     private OnLocationChangedListener mListener;
@@ -49,37 +61,28 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
 
     private Marker marker;
     private BitmapDescriptor mBitmapDescriptor;
+    private Marker friendMarker;
+    private BitmapDescriptor mFriendBitmapDescriptor;
 
     private Bitmap bmp_me;
+    private Bitmap bmp_friend;
 
+    private double mFriendLatitude = 38.98587022569444;
+    private double mFriendLongitude = 117.34032253689236;
+    private LatLng friendLatLng = new LatLng(mFriendLatitude, mFriendLongitude);
     private double mLatitude;
     private double mLongitude;
 
+    private AMapNavi mAMapNavi;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // 初始化参数依次为 this, AppId, AppKey
-        AVOSCloud.initialize(this,"xRBlai1ATNmdmRvpFtzOO4fj-gzGzoHsz","D4hgUa86CD1X0WJ7bsbOkyc3");
-        // 测试 LeanCloud SDK 是否正常工作的代码
-//        AVObject testObject = new AVObject("TestObject");
-//        testObject.put("words","Hello World!");
-//        testObject.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(AVException e) {
-//                if(e == null){
-//                    Log.d("saved","success!");
-//                }
-//            }
-//        });
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
-
+        setContentView(R.layout.activity_loca);
         mMapView = (MapView) findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
         tvResult = (TextView) findViewById(R.id.tv_result);
         tvResult.setVisibility(View.GONE);
+        mStartNaivBtn = (Button) findViewById(R.id.start_naiv_btn);
 
         // generate custom marker using user photo
         Bitmap src = BitmapFactory.decodeResource(getResources(), R.drawable.photo);
@@ -92,8 +95,10 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         int height = 80 + border + triHeight;
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
         bmp_me = Bitmap.createBitmap(width, height, conf);
+        bmp_friend = Bitmap.createBitmap(width, height, conf);
 
         Canvas canvas1 = new Canvas(bmp_me);
+        Canvas canvas2 = new Canvas(bmp_friend);
 
         Point a = new Point(0, 0);
         Point b = new Point(width, 0);
@@ -118,6 +123,9 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         canvas1.drawPath(path, color);
         canvas1.drawBitmap(bmp, border/2, border/2, color);
         mBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_me);
+        canvas2.drawPath(path, color);
+        canvas2.drawBitmap(bmp, border/2, border/2, color);
+        mFriendBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_friend);
 
         init();
     }
@@ -126,7 +134,7 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         if (mAMap == null) {
             mAMap = mMapView.getMap();
             mAMap.getUiSettings().setRotateGesturesEnabled(false);
-            mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+            mAMap.moveCamera(CameraUpdateFactory.zoomBy(6));
             setUpMap();
         }
     }
@@ -144,8 +152,7 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         // 设置圆形的填充颜色
         myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
         //连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）This is the default mode。
-        // myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_SHOW);
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
         //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
         myLocationStyle.interval(2000);
         // 将自定义的 myLocationStyle 对象添加到地图上
@@ -156,6 +163,14 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         marker = mAMap.addMarker(new MarkerOptions()
                 .icon(mBitmapDescriptor)
                 .anchor(0.5f, 1));
+        friendMarker = mAMap.addMarker(new MarkerOptions()
+                .icon(mFriendBitmapDescriptor)
+                .anchor(0.5f, 1));
+        // setup navigation listener
+        //获取AMapNavi实例
+        mAMapNavi = AMapNavi.getInstance(getApplicationContext());
+        //添加监听回调，用于处理算路成功
+        mAMapNavi.addAMapNaviListener(this);
     }
 
     @Override
@@ -170,6 +185,8 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             // 单次定位
             mLocationOption.setOnceLocation(false);
+            //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+            mLocationOption.setInterval(1000);
             // 设置定位参数
             mLocationClient.setLocationOption(mLocationOption);
             mLocationClient.startLocation();
@@ -196,10 +213,11 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
                 mLatitude = aMapLocation.getLatitude();
                 mLongitude = aMapLocation.getLongitude();
                 LatLng latLng = new LatLng(mLatitude, mLongitude);
-                // mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
-                // mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+                mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
+                mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
                 // 显示marker
                 marker.setPosition(latLng);
+                friendMarker.setPosition(friendLatLng);
 
                 String gpsText = "定位: " + aMapLocation.getLatitude() + ", " + aMapLocation.getLongitude();
                 tvResult.setVisibility(View.VISIBLE);
@@ -254,32 +272,186 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         }
     }
 
-    public void pageJump(View view) {
-        int id = view.getId();
-        Intent intent = null;
-        switch (id) {
-            case R.id.myfriend_text:
-                intent = new Intent(MainActivity.this, AdressListActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.setting_text:
-                intent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.help_text:
-                intent = new Intent(MainActivity.this, SystemHelpActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.callrecord_text:
-                intent = new Intent(MainActivity.this, CallRecordsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.logout_text:
-                AVUser.logOut();
-                intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+    // Button listeners
+    public void startNavigation(View view) {
+        Intent intent = new Intent(getBaseContext(), NaviActivity.class);
+        double[] locations = new double[4];
+        locations[0] = mLatitude;
+        locations[1] = mLongitude;
+        locations[2] = mFriendLatitude;
+        locations[3] = mFriendLongitude;
+        intent.putExtra("EXTRA_LOCATIONS", locations);
+        startActivity(intent);
+    }
+
+    // methods to implement because of AMapNaviListener
+    @Override
+    public void onInitNaviFailure() {
+        String errText = "InitNaviFailure";
+        Log.e("AmapErr", errText);
+        tvResult.setVisibility(View.VISIBLE);
+        tvResult.setText(errText);
+    }
+
+    @Override
+    public void onInitNaviSuccess() {
+        mAMapNavi.calculateWalkRoute(new NaviLatLng(mLatitude, mLongitude), new NaviLatLng(mFriendLatitude, mFriendLongitude));
+    }
+
+    @Override
+    public void onStartNavi(int i) {
+
+    }
+
+    @Override
+    public void onTrafficStatusUpdate() {
+
+    }
+
+    @Override
+    public void onLocationChange(AMapNaviLocation aMapNaviLocation) {
+        // mAMapNavi.calculateWalkRoute(aMapNaviLocation.getCoord(), new NaviLatLng(mFriendLatitude, mFriendLongitude));
+    }
+
+    @Override
+    public void onGetNavigationText(int i, String s) {
+
+    }
+
+    @Override
+    public void onEndEmulatorNavi() {
+
+    }
+
+    @Override
+    public void onArriveDestination() {
+
+    }
+
+    @Override
+    public void onCalculateRouteSuccess() {
+        marker.setVisible(false);
+        friendMarker.setVisible(false);
+        RouteOverLay routeOverLay = new RouteOverLay(mAMap, mAMapNavi.getNaviPath(), this);
+        routeOverLay.setStartPointBitmap(bmp_me);
+        routeOverLay.setEndPointBitmap(bmp_friend);
+        routeOverLay.removeFromMap();
+        routeOverLay.addToMap();
+        // routeOverLay.zoomToSpan();
+        mStartNaivBtn.setEnabled(true);
+    }
+
+    @Override
+    public void onCalculateRouteFailure(int i) {
+        String errText = "CalculateRouteFailure";
+        Log.e("AmapErr", errText);
+        tvResult.setVisibility(View.VISIBLE);
+        tvResult.setText(errText);
+    }
+
+    @Override
+    public void onReCalculateRouteForYaw() {
+
+    }
+
+    @Override
+    public void onReCalculateRouteForTrafficJam() {
+
+    }
+
+    @Override
+    public void onArrivedWayPoint(int i) {
+
+    }
+
+    @Override
+    public void onGpsOpenStatus(boolean b) {
+        if(!b){
+            String errText = "Gps closed";
+            Log.e("AmapErr", errText);
+            tvResult.setVisibility(View.VISIBLE);
+            tvResult.setText(errText);
         }
     }
+
+    @Override
+    public void onNaviInfoUpdate(NaviInfo naviInfo) {
+
+    }
+
+    @Override
+    public void onNaviInfoUpdated(AMapNaviInfo aMapNaviInfo) {
+
+    }
+
+    @Override
+    public void updateCameraInfo(AMapNaviCameraInfo[] aMapNaviCameraInfos) {
+
+    }
+
+    @Override
+    public void onServiceAreaUpdate(AMapServiceAreaInfo[] aMapServiceAreaInfos) {
+
+    }
+
+    @Override
+    public void showCross(AMapNaviCross aMapNaviCross) {
+
+    }
+
+    @Override
+    public void hideCross() {
+
+    }
+
+    @Override
+    public void showLaneInfo(AMapLaneInfo[] aMapLaneInfos, byte[] bytes, byte[] bytes1) {
+
+    }
+
+    @Override
+    public void hideLaneInfo() {
+
+    }
+
+    @Override
+    public void onCalculateMultipleRoutesSuccess(int[] ints) {
+
+    }
+
+    @Override
+    public void notifyParallelRoad(int i) {
+
+    }
+
+    @Override
+    public void OnUpdateTrafficFacility(AMapNaviTrafficFacilityInfo aMapNaviTrafficFacilityInfo) {
+
+    }
+
+    @Override
+    public void OnUpdateTrafficFacility(AMapNaviTrafficFacilityInfo[] aMapNaviTrafficFacilityInfos) {
+
+    }
+
+    @Override
+    public void OnUpdateTrafficFacility(TrafficFacilityInfo trafficFacilityInfo) {
+
+    }
+
+    @Override
+    public void updateAimlessModeStatistics(AimLessModeStat aimLessModeStat) {
+
+    }
+
+    @Override
+    public void updateAimlessModeCongestionInfo(AimLessModeCongestionInfo aimLessModeCongestionInfo) {
+
+    }
+
+    @Override
+    public void onPlayRing(int i) {
+
+    }
 }
+
