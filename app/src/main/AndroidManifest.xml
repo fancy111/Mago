@@ -58,9 +58,7 @@
         android:theme="@style/AppTheme">
 
         <service android:name="com.amap.api.location.APSService" />
-        <!-- choose one below for debugging (rushzhou) -->
-         <activity android:name=".WelcomeActivity">
-        <!--<activity android:name=".LocaActivity">-->
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -79,10 +77,7 @@
         <activity android:name=".NaviActivity" />
         <activity android:name=".CalleeActivity"/>
         <activity android:name=".CallerActivity"/>
-
-        <!-- choose the other for debugging (rushzhou) -->
-         <activity android:name=".LocaActivity"/>
-        <!--<activity android:name=".WelcomeActivity" />-->
+        <activity android:name=".LocaActivity"/>
 
         <!-- Gaode key -->
         <meta-data
