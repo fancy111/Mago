@@ -7,7 +7,10 @@ buildscript {
         maven {
             url "http://mvn.leancloud.cn/nexus/content/repositories/public"
         }
-        //-------------------------------------------------------------------
+        //---------------------added by fancy at 2017/5/2 for android picker-----
+        maven {
+            url "https://www.jitpack.io"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
@@ -24,7 +27,10 @@ allprojects {
         maven {
             url "http://mvn.leancloud.cn/nexus/content/repositories/public"
         }
-        //--------------------------------------------------------------------
+        //---------------------added by fancy at 2017/5/2 for android picker-----
+        maven {
+            url "https://www.jitpack.io"
+        }
     }
 }
 

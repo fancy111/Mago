@@ -275,7 +275,8 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
                 startActivity(intent);
                 break;
             case R.id.logout_text:
-                AVUser.logOut();
+                //user log out
+                AVUser.getCurrentUser().logOut();
                 intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();

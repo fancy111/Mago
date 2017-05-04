@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backGray"
+    tools:context="com.monster.fancy.debug.mago.EditProfileActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basicColor">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:onClick="onCancelProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:textColor="@color/ivory"
+                android:textSize="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                style="@style/textViewToolBarStyle"
+                android:text="@string/myProfile" />
+
+            <TextView
+                android:onClick="onFinishProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/finish"
+                android:textColor="@color/ivory"
+                android:textSize="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/ivory">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/imageview_round" />
+
+        <com.monster.fancy.debug.view.RoundImageView
+            android:onClick="onSetAvatar"
+            android:id="@+id/photo_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxHeight="130dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/photo" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical"
+        android:background="@color/ivory">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/username_text"
+                style="@style/textViewStyle_profile"
+                android:text="@string/username" />
+
+            <EditText
+                android:id="@+id/username_edt"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="fancy"
+                android:background="@null"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="40dp"
+                android:layout_toRightOf="@+id/username_text" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/textColor_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/realname_text"
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentLeft="true"
+                android:text="@string/realname" />
+
+            <EditText
+                android:id="@+id/realname_edt"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:hint="@string/notset"
+                android:background="@null"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="24dp"
+                android:layout_toRightOf="@+id/realname_text" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/textColor_gray" />
+
+        <RelativeLayout
+            android:onClick="onOptionPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/gender_text"
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentLeft="true"
+                android:text="@string/gender" />
+
+            <TextView
+                android:id="@+id/gender_edt"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:hint="@string/notset"
+                android:layout_centerVertical="true"
+                android:textColor="#3a3a3a"
+                android:textSize="20dp"
+                android:layout_marginLeft="58dp"
+                android:layout_toRightOf="@+id/gender_text" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/textColor_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/phone_text"
+                style="@style/textViewStyle_profile"
+                android:layout_alignParentLeft="true"
+                android:text="@string/phone" />
+
+            <EditText
+                android:id="@+id/phone_edt"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="13858308213"
+                android:inputType="phone"
+                android:background="@null"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="58dp"
+                android:layout_toRightOf="@+id/phone_text" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="@string/selfIntro"
+        android:padding="10dp"
+        android:background="@color/ivory" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/textColor_gray" />
+
+    <EditText
+        android:id="@+id/signature_edt"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@color/ivory"
+        android:hint="@string/userDefaultSig"
+        android:padding="10dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/textColor_gray" />
+
+</LinearLayout>

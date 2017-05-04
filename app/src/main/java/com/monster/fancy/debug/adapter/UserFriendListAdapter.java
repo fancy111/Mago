@@ -83,7 +83,7 @@ public class UserFriendListAdapter extends BaseAdapter implements SectionIndexer
                 viewHolder.tvLetter.setVisibility(View.GONE);
                 viewHolder.tvLine.setVisibility(View.GONE);
             }
-            viewHolder.tvTitle.setText(friend.getNickName());
+            viewHolder.tvTitle.setText(friend.getUsername());
         }
         return convertView;
     }

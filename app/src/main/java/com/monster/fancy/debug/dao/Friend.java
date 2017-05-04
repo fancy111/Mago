@@ -6,11 +6,11 @@ import java.io.Serializable;
  * Created by fancy on 2017/4/24.
  */
 public class Friend implements Serializable {
-    private int friendID;
+    private String ID;
     private boolean starFriend;//star friend
     private String photoUrl;
     private String remark;
-    private String nickName;
+    private String username;
     private String realName;
     private String signature;
     private String gender;
@@ -22,8 +22,8 @@ public class Friend implements Serializable {
         this.sortLetter = sortLetter;
     }
 
-    public void setFriendID(int friendID) {
-        this.friendID = friendID;
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public void setStarFriend(boolean starFriend) {
@@ -38,8 +38,8 @@ public class Friend implements Serializable {
         this.remark = remark;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setRealName(String realName) {
@@ -62,8 +62,8 @@ public class Friend implements Serializable {
         this.letter = letter;
     }
 
-    public int getFriendID() {
-        return friendID;
+    public String getID() {
+        return ID;
     }
 
     public boolean isStarFriend() {
@@ -78,8 +78,8 @@ public class Friend implements Serializable {
         return remark;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getUsername() {
+        return username;
     }
 
     public String getRealName() {
