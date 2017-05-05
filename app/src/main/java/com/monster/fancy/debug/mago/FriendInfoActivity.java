@@ -3,6 +3,7 @@ package com.monster.fancy.debug.mago;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,12 +11,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVCloudQueryResult;
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
@@ -24,6 +27,7 @@ import com.avos.avoscloud.DeleteCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.FollowCallback;
 import com.monster.fancy.debug.dao.Friend;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +42,7 @@ public class FriendInfoActivity extends AppCompatActivity {
     private TextView phone_textview;
     private TextView remark_textview;
     private TextView signature_textview;
+    private ImageView friendAvatar_img;
     private Switch setStar_btn;
     private Friend friend;
 
@@ -52,6 +57,7 @@ public class FriendInfoActivity extends AppCompatActivity {
         remark_textview = (TextView) findViewById(R.id.friend_remark);
         signature_textview = (TextView) findViewById(R.id.friend_description);
         setStar_btn = (Switch) findViewById(R.id.setStar_btn);
+        friendAvatar_img = (ImageView) findViewById(R.id.friendAvatar_img);
 
         //accept the parameter from address_list page
         Intent intent = this.getIntent();
@@ -118,6 +124,9 @@ public class FriendInfoActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(friend.getSignature()))
             signature_textview.setText(friend.getSignature());
+        if (!TextUtils.isEmpty(friend.getPhotoUrl())) {
+            Picasso.with(FriendInfoActivity.this).load(friend.getPhotoUrl()).into(friendAvatar_img);
+        }
     }
 
     //the onclick method for back button

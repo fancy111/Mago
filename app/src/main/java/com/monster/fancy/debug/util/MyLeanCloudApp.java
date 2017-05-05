@@ -10,10 +10,12 @@ import com.avos.avoscloud.AVOSCloud;
 
 public class MyLeanCloudApp extends Application {
 
+    public static MyLeanCloudApp ctx;
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        ctx = this;
         // 初始化参数依次为 this, AppId, AppKey
         AVOSCloud.initialize(this, "xRBlai1ATNmdmRvpFtzOO4fj-gzGzoHsz", "D4hgUa86CD1X0WJ7bsbOkyc3");
         // 放在 SDK 初始化语句 AVOSCloud.initialize() 后面，只需要调用一次即可

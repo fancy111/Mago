@@ -15,7 +15,7 @@ import android.widget.ImageView;
 /**
  * Created by fancy on 2017/4/19.
  */
-public class RoundImageView extends ImageView {
+public class RoundImageView extends android.support.v7.widget.AppCompatImageView {
     private Paint paint;
 
     public RoundImageView(Context context) {

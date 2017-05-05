@@ -58,5 +58,6 @@
     <string name="remark">备注 :</string>
     <string name="yes">确定</string>
     <string name="search">搜索</string>
+    <string name="chat_utils_hardLoading">努力加载中</string>
 
 </resources>

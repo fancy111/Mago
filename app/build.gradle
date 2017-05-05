@@ -68,5 +68,8 @@ dependencies {
     compile 'com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.0'
     compile 'com.github.gzu-liyujiang.AndroidPicker:FilePicker:1.5.0'
     compile 'com.github.gzu-liyujiang.AndroidPicker:ColorPicker:1.5.0'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
     testCompile 'junit:junit:4.12'
 }

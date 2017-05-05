@@ -7,10 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
+import com.squareup.picasso.Picasso;
 
 import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
@@ -22,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView gender_text;
     private TextView phone_text;
     private TextView signature_text;
+    private ImageView avatar_img;
 
     private AVUser avUser;
 
@@ -37,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
         gender_text = (TextView) findViewById(R.id.gender_text);
         phone_text = (TextView) findViewById(R.id.phone_text);
         signature_text = (TextView) findViewById(R.id.signature_text);
+        avatar_img = (ImageView) findViewById(R.id.avatar_img);
 
         //set the values
         this.setTextViews();
@@ -60,6 +65,10 @@ public class ProfileActivity extends AppCompatActivity {
             realname_text.setText(avUser.getString("realname"));
         if (!TextUtils.isEmpty(avUser.getString("signature")))
             signature_text.setText(avUser.getString("signature"));
+        if (avUser.getAVFile("avatar") != null) {
+            AVFile avatarFile = avUser.getAVFile("avatar");
+            Picasso.with(ProfileActivity.this).load(avatarFile.getUrl()).into(avatar_img);
+        }
     }
 
     public void editProfile(View view) {
