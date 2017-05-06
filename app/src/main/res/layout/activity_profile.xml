@@ -8,24 +8,34 @@
     tools:context="com.monster.fancy.debug.mago.ProfileActivity">
 
     <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
+    android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/basicColor">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <ImageButton
-                android:onClick="back"
-                android:id="@+id/back_btn"
-                style="@style/imageBtnStyle"
-                android:src="@drawable/back_icon" />
+        <ImageButton
+            android:onClick="back"
+            android:id="@+id/back_btn"
+            style="@style/imageBtnStyle"
+            android:src="@drawable/back_icon" />
 
-            <TextView
-                style="@style/textViewToolBarStyle"
-                android:text="@string/myProfile" />
-        </RelativeLayout>
+        <TextView
+            style="@style/textViewToolBarStyle"
+            android:text="@string/myProfile" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="editProfile"
+            android:id="@+id/edit_btn"
+            android:background="#0000"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/edit_icon"
+            android:layout_marginRight="12dp" />
+    </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
@@ -43,12 +53,10 @@
             android:src="@drawable/imageview_round" />
 
         <com.monster.fancy.debug.view.RoundImageView
-            android:id="@+id/photo_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/avatar_img"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_centerInParent="true"
-            android:maxHeight="130dp"
-            android:adjustViewBounds="true"
             android:src="@drawable/photo" />
     </RelativeLayout>
 
@@ -67,14 +75,13 @@
 
             <TextView
                 style="@style/textViewStyle_profile"
-                android:layout_alignParentLeft="true"
-                android:text="@string/nickname" />
+                android:text="@string/username" />
 
             <TextView
-                android:id="@+id/nickname_text"
+                android:id="@+id/username_text"
                 style="@style/textViewStyle_profile"
                 android:layout_alignParentRight="true"
-                android:text="fanfanfansiyu" />
+                android:hint="@string/notset" />
         </RelativeLayout>
 
         <View
@@ -97,7 +104,7 @@
                 android:id="@+id/realname_text"
                 style="@style/textViewStyle_profile"
                 android:layout_alignParentRight="true"
-                android:text="范思妤" />
+                android:hint="@string/notset" />
         </RelativeLayout>
 
         <View
@@ -120,18 +127,18 @@
                 android:id="@+id/gender_text"
                 style="@style/textViewStyle_profile"
                 android:layout_alignParentRight="true"
-                android:text="女" />
+                android:hint="@string/notset" />
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@color/textColor_gray" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/textColor_gray" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
@@ -164,11 +171,12 @@
         android:background="@color/textColor_gray" />
 
     <TextView
+        android:id="@+id/signature_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:background="@color/ivory"
         android:padding="10dp"
-        android:hint="@string/selfIntroContent" />
+        android:text="@string/userDefaultSig" />
 
 </LinearLayout>

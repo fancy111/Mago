@@ -13,11 +13,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.FindCallback;
 import com.monster.fancy.debug.adapter.UserFriendListAdapter;
 import com.monster.fancy.debug.dao.Friend;
 import com.monster.fancy.debug.util.CharacterParser;
 import com.monster.fancy.debug.util.PinyinComparator;
 import com.monster.fancy.debug.view.SideBar;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -71,82 +77,68 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
         // 实例化汉字转拼音类
         characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
-
-        Friend friend1 = new Friend();
-        friend1.setNickName("大屁");
-        friend1.setSortLetter("d");
-
-        Friend friend2 = new Friend();
-        friend2.setNickName("猴子");
-        friend2.setSortLetter("h");
-
-        Friend friend3 = new Friend();
-        friend3.setNickName("鱼鱼");
-        friend3.setSortLetter("y");
-
-        Friend friend4 = new Friend();
-        friend4.setNickName("东东");
-        friend4.setSortLetter("d");
-
-        Friend friend5 = new Friend();
-        friend5.setNickName("孙子");
-        friend5.setSortLetter("s");
-
-        Friend friend6 = new Friend();
-        friend6.setNickName("阿皮");
-        friend6.setSortLetter("a");
-
-        Friend friend7 = new Friend();
-        friend7.setNickName("小鱼儿");
-        friend7.setSortLetter("x");
-
-        Friend friend8 = new Friend();
-        friend8.setNickName("笔笔");
-        friend8.setSortLetter("b");
-
-        Friend friend9 = new Friend();
-        friend9.setNickName("丢丢");
-        friend9.setSortLetter("d");
-
-        Friend friend10 = new Friend();
-        friend10.setNickName("西瓜");
-        friend10.setSortLetter("x");
-
-        sortDataList.add(friend1);
-        sortDataList.add(friend2);
-        sortDataList.add(friend3);
-        sortDataList.add(friend4);
-        sortDataList.add(friend5);
-        sortDataList.add(friend6);
-        sortDataList.add(friend7);
-        sortDataList.add(friend8);
-        sortDataList.add(friend9);
-        sortDataList.add(friend10);
-
-        fillData(sortDataList);
-        // sort the list in a-z order
-        Collections.sort(sortDataList, pinyinComparator);
-        friendListAdapter = new UserFriendListAdapter(this, sortDataList);
+        fillData();
+        //set the data list
+        friendListAdapter = new UserFriendListAdapter(AdressListActivity.this, sortDataList);
+        //set the adapter for the list view
         friend_lst.setAdapter(friendListAdapter);
-        searchFriend_edt.addTextChangedListener(this);
+        //set the listener for the search edit text
+        searchFriend_edt.addTextChangedListener(AdressListActivity.this);
     }
 
+
     //fill the data in the list
-    private void fillData(List<Friend> list) {
-        for (Friend friendInfo : list) {
-            if (friendInfo != null && friendInfo.getNickName() != null) {
-                String pinyin = characterParser.getSelling(friendInfo.getNickName());
+    private void fillData() {
+        sortDataList.clear();
 
-                String sortString = pinyin.substring(0, 1).toUpperCase();
+        AVUser user = AVUser.getCurrentUser();
 
-                if (friendInfo.isStarFriend()) {// if is a star friend
-                    friendInfo.setSortLetter("☆");
-                } else if (sortString.matches("[A-Z]")) {// if the first character is the english
-                    friendInfo.setSortLetter(sortString);
-                } else {
-                    friendInfo.setSortLetter("#");
+        try {
+            AVQuery<AVUser> followeeQuery = user.followeeQuery(AVUser.class);
+            followeeQuery.include("followee");
+            followeeQuery.findInBackground(new FindCallback<AVUser>() {
+                @Override
+                public void done(List<AVUser> list, AVException e) {
+                    if (e == null) {
+                        for (int i = 0; i < list.size(); i++) {
+                            Friend friend = new Friend();
+                            AVUser friendUser = list.get(i);
+                            //set the basic information of the friend
+                            friend.setID(friendUser.getObjectId());
+                            friend.setUsername(friendUser.getUsername());
+                            friend.setPhone(friendUser.getMobilePhoneNumber());
+                            if (!TextUtils.isEmpty(friendUser.getString("gender")))
+                                friend.setGender(friendUser.getString("gender"));
+                            if (!TextUtils.isEmpty(friendUser.getString("realname")))
+                                friend.setRealName(friendUser.getString("realname"));
+                            if (!TextUtils.isEmpty(friendUser.getString("signature")))
+                                friend.setSignature(friendUser.getString("signature"));
+                            if (friendUser.getAVFile("avatar") != null) {
+                                friend.setPhotoUrl(friendUser.getAVFile("avatar").getUrl());
+                            }
+                            //get the pinyin of the username
+                            String pinyin = characterParser.getSelling(friend.getUsername());
+                            //set the sort letter of the friend
+                            if (friend.isStarFriend()) {// if is a star friend
+                                friend.setSortLetter("☆");
+                            } else
+                                friend.setSortLetter(pinyin.substring(0, 1).toUpperCase());
+                            //add the friend to the list
+                            sortDataList.add(friend);
+                            // sort the list in a-z order
+                            Collections.sort(sortDataList, pinyinComparator);
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "get friend list error!\n" + e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+
+                    }
+
                 }
-            }
+            });
+        } catch (AVException e) {
+            e.printStackTrace();
         }
     }
 
@@ -186,7 +178,7 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
         } else {
             filterDateList.clear();
             for (Friend sortModel : list) {
-                String name = sortModel.getNickName();
+                String name = sortModel.getUsername();
                 if (name.indexOf(filterStr.toString()) != -1 || characterParser.getSelling(name).startsWith(filterStr.toString())) {
                     filterDateList.add(sortModel);
                 }

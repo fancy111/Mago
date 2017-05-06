@@ -2,6 +2,7 @@ package com.monster.fancy.debug.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.monster.fancy.debug.dao.Friend;
+import com.monster.fancy.debug.mago.EditProfileActivity;
 import com.monster.fancy.debug.mago.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -83,7 +86,9 @@ public class UserFriendListAdapter extends BaseAdapter implements SectionIndexer
                 viewHolder.tvLetter.setVisibility(View.GONE);
                 viewHolder.tvLine.setVisibility(View.GONE);
             }
-            viewHolder.tvTitle.setText(friend.getNickName());
+            viewHolder.tvTitle.setText(friend.getUsername());
+            if (!TextUtils.isEmpty(friend.getPhotoUrl()))
+                Picasso.with(parent.getContext()).load(friend.getPhotoUrl()).into(viewHolder.ivHead);
         }
         return convertView;
     }

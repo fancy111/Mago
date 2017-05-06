@@ -28,6 +28,7 @@ import java.util.List;
 
 public class MyLeanCloudApp extends Application {
 
+
     final static int CALLEE = 0;
     final static int CALLER = 1;
 
@@ -55,7 +56,6 @@ public class MyLeanCloudApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         ctx = this;
         // 初始化参数依次为 this, AppId, AppKey
         AVOSCloud.initialize(this, "xRBlai1ATNmdmRvpFtzOO4fj-gzGzoHsz", "D4hgUa86CD1X0WJ7bsbOkyc3");

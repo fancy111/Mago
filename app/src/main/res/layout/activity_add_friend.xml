@@ -42,4 +42,10 @@
         android:hint="@string/inputthephonenumber"
         android:inputType="phone" />
 
+    <Button
+        android:id="@+id/button"
+        style="@style/BtnStyle"
+        android:onClick="onSearchFriend"
+        android:text="@string/search" />
+
 </LinearLayout>
