@@ -29,17 +29,10 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
-import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
-import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
-
-import java.util.Arrays;
 
 public class MainActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
 
@@ -295,26 +288,9 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
 
     public void TomCallJerry(View view) {
         // 创建与fancy(5909d5f45c497d00585955d6)之间的对话
-        mClient.createConversation(Arrays.asList("5909d5f45c497d00585955d6"), "hello fancy", null,
-                new AVIMConversationCreatedCallback() {
-                    @Override
-                    public void done(AVIMConversation conversation, AVIMException e) {
-                        if (e == null) {
-                            AVIMTextMessage msg = new AVIMTextMessage();
-                            msg.setText("hello");
-                            // 发送消息
-                            conversation.sendMessage(msg, new AVIMConversationCallback() {
-                                @Override
-                                public void done(AVIMException e) {
-                                    if (e == null) {
-                                        Log.d("hello fancy", "发送成功！");
-                                        Intent intent = new Intent(getBaseContext(), CallerActivity.class);
-                                        startActivity(intent);
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
+        Intent intent = new Intent(getBaseContext(), CallerActivity.class);
+        intent.putExtra("peerId", "5909d5f45c497d00585955d6");
+        intent.putExtra("myGps", new double[]{mLatitude, mLongitude});
+        startActivity(intent);
     }
 }

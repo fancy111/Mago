@@ -5,16 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.amap.api.navi.model.NaviLatLng;
+import com.avos.avoscloud.AVGeoPoint;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageHandler;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
+import com.avos.avoscloud.im.v2.messages.AVIMLocationMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
+import com.google.gson.Gson;
 import com.monster.fancy.debug.mago.CalleeActivity;
 import com.monster.fancy.debug.mago.CallerActivity;
 import com.monster.fancy.debug.mago.LocaActivity;
+
+import java.util.List;
 
 /**
  * Created by fancy on 2017/4/27.
@@ -22,27 +28,26 @@ import com.monster.fancy.debug.mago.LocaActivity;
 
 public class MyLeanCloudApp extends Application {
 
+    final static int CALLEE = 0;
+    final static int CALLER = 1;
+
     private Context ctx;
 
     private class CustomMessageHandler extends AVIMMessageHandler {
         //接收到消息后的处理逻辑
         @Override
-        public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client){
-            if(message instanceof AVIMTextMessage){
-                String content = ((AVIMTextMessage) message).getText();
-                if(content.equals("hello")){
-                    Intent intent = new Intent(ctx, CalleeActivity.class);
-                    intent.putExtra("from" ,message.getFrom());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    ctx.startActivity(intent);
-                }
-                else if(content.equals("whatsup")){
-                    Intent intent = new Intent(ctx, LocaActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    ctx.startActivity(intent);
-                }
-                else
-                    Log.d("content", content);
+        public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client) {
+            if (message instanceof AVIMTextMessage) {
+                Intent intent = new Intent(ctx, LocaActivity.class);
+                intent.putExtra("whoAmI", CALLER);
+                intent.putExtra("locationMessage", message);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ctx.startActivity(intent);
+            } else if (message instanceof AVIMLocationMessage) {
+                Intent intent = new Intent(ctx, CalleeActivity.class);
+                intent.putExtra("locationMessage", message);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ctx.startActivity(intent);
             }
         }
     }

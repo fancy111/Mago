@@ -39,27 +39,23 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.3.0'
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/pinyin4j-2.5.0.jar')
-
     // added by rushzhou on 2017/04/24 for Gaode API
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     // navigation SDK
     compile 'com.amap.api:navi-3dmap:latest.integration'
-
     // location SDK
     compile 'com.amap.api:location:latest.integration'
-
     // added by rushzhou on 2017/04/28 for LeanCloud SDK
-    compile ('com.android.support:support-v4:21.0.3')
+    compile 'com.android.support:support-v4:21.0.3'
     // LeanCloud 基础包
-    compile ('cn.leancloud.android:avoscloud-sdk:v3.+')
+    compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
     // 推送与实时聊天需要的包
-    compile ('cn.leancloud.android:avoscloud-push:v3.+@aar'){transitive = true}
+    compile('cn.leancloud.android:avoscloud-push:v3.+@aar') { transitive = true }
     // LeanCloud 统计包
-    compile ('cn.leancloud.android:avoscloud-statistics:v3.+')
+    compile 'cn.leancloud.android:avoscloud-statistics:v3.+'
     // LeanCloud 用户反馈包
-    compile ('cn.leancloud.android:avoscloud-feedback:v3.+@aar')
+    compile 'cn.leancloud.android:avoscloud-feedback:v3.+@aar'
+    compile 'com.google.code.gson:gson:2.8.0'
 }
