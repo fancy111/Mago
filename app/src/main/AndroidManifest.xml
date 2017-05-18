@@ -101,8 +101,9 @@
         <!-- 反馈组件（需要加入以下声明）START -->
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
         <!-- 反馈组件 END -->
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".AddFriendInfoActivity"></activity>
+        <activity android:name=".AddFriendInfoActivity" />
+        <activity android:name=".FunctionIntroActivity" />
+        <activity android:name=".GroupIntroActivity"></activity>
     </application>
 
 </manifest>

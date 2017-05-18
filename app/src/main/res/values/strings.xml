@@ -59,5 +59,7 @@
     <string name="yes">确定</string>
     <string name="search">搜索</string>
     <string name="chat_utils_hardLoading">努力加载中</string>
+    <string name="mago_1_0_0">mago1.0.0 版本功能介绍</string>
+    <string name="magoTeamIntro">Mago项目团队介绍</string>
 
 </resources>

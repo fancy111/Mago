@@ -43,6 +43,8 @@
         android:text="V1.0.0" />
 
     <TextView
+        android:id="@+id/funcIntro_text"
+        android:onClick="onPageJump"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="14dp"
@@ -61,6 +63,8 @@
         android:background="@color/foreGray" />
 
     <TextView
+        android:id="@+id/groupIntro_text"
+        android:onClick="onPageJump"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="14dp"

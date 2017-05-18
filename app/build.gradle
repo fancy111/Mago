@@ -37,6 +37,8 @@ android {
 
 
 
+
+
 dependencies {
 
 
@@ -58,6 +60,8 @@ dependencies {
     // LeanCloud 用户反馈包
 
     // added by fancy on 2017/05/02 for android picker
+
+
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.amap.api:navi-3dmap:latest.integration'
@@ -68,8 +72,6 @@ dependencies {
     compile 'com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.0'
     compile 'com.github.gzu-liyujiang.AndroidPicker:FilePicker:1.5.0'
     compile 'com.github.gzu-liyujiang.AndroidPicker:ColorPicker:1.5.0'
-
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     testCompile 'junit:junit:4.12'
 }
