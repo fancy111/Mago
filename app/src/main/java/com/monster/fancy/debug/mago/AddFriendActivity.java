@@ -80,6 +80,8 @@ public class AddFriendActivity extends AppCompatActivity {
 
 
     public void back(View view) {
+        Intent intent = new Intent(AddFriendActivity.this,AdressListActivity.class);
         finish();
+        startActivity(intent);
     }
 }

@@ -61,6 +61,7 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
                 Friend friend = sortDataList.get(position);
                 Intent intent = new Intent(AdressListActivity.this, FriendInfoActivity.class);
                 intent.putExtra("friend", friend);
+                finish();
                 startActivity(intent);
             }
         });
@@ -196,6 +197,7 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
 
     public void onAddFriend(View view) {
         Intent intent = new Intent(AdressListActivity.this,AddFriendActivity.class);
+        finish();
         startActivity(intent);
     }
 }

@@ -17,18 +17,18 @@ import java.io.IOException;
 
 public class Utils {
 
-
-    public static ProgressDialog showSpinnerDialog(Activity activity) {
-        //activity = modifyDialogContext(activity);
-        ProgressDialog dialog = new ProgressDialog(activity);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setCancelable(true);
-        dialog.setMessage(MyLeanCloudApp.ctx.getString(R.string.chat_utils_hardLoading));
-        if (!activity.isFinishing()) {
-            dialog.show();
-        }
-        return dialog;
-    }
+//
+//    public static ProgressDialog showSpinnerDialog(Activity activity) {
+//        //activity = modifyDialogContext(activity);
+//        ProgressDialog dialog = new ProgressDialog(activity);
+//        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        dialog.setCancelable(true);
+//        dialog.setMessage(MyLeanCloudApp.ctx.getString(R.string.chat_utils_hardLoading));
+//        if (!activity.isFinishing()) {
+//            dialog.show();
+//        }
+//        return dialog;
+//    }
 
     public static void saveBitmap(String filePath, Bitmap bitmap) {
         File file = new File(filePath);

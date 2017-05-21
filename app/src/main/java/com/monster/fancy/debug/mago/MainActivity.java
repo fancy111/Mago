@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,15 +30,22 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
 
 
+    private ImageView avatarImg;
+    private TextView usernameText;
+    private TextView phonenumText;
+
     private DrawerLayout mDrawerLayout;
     private LinearLayout mDrawer;
-    private TextView username_text;
 
     private AMap mAMap;
     private MapView mMapView;
@@ -55,23 +63,17 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
     private double mLatitude;
     private double mLongitude;
 
+    private AVUser mAVUser;
+    static public AVIMClient mClient;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 初始化参数依次为 this, AppId, AppKey
-        AVOSCloud.initialize(this,"xRBlai1ATNmdmRvpFtzOO4fj-gzGzoHsz","D4hgUa86CD1X0WJ7bsbOkyc3");
-        // 测试 LeanCloud SDK 是否正常工作的代码
-//        AVObject testObject = new AVObject("TestObject");
-//        testObject.put("words","Hello World!");
-//        testObject.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(AVException e) {
-//                if(e == null){
-//                    Log.d("saved","success!");
-//                }
-//            }
-//        });
+        avatarImg = (ImageView) findViewById(R.id.mainAvatar_img);
+        usernameText = (TextView) findViewById(R.id.mainUsername_text);
+        phonenumText = (TextView) findViewById(R.id.mainPhoneNum_text);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
@@ -81,7 +83,34 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         tvResult = (TextView) findViewById(R.id.tv_result);
         tvResult.setVisibility(View.GONE);
 
-        // generate custom marker using user photo
+        mAVUser = AVUser.getCurrentUser();
+
+        setMyInfo();
+
+        clientLogin();
+
+        genMarker();
+
+        initMap();
+    }
+
+    /**
+     * set my basic info
+     */
+    private void setMyInfo() {
+        usernameText.setText(mAVUser.getUsername());
+        phonenumText.setText(mAVUser.getMobilePhoneNumber());
+        if (mAVUser.getAVFile("avatar") != null) {
+            AVFile avatarFile = mAVUser.getAVFile("avatar");
+            Picasso.with(MainActivity.this).load(avatarFile.getUrl()).into(avatarImg);
+        }
+    }
+
+    /**
+     * @function genMarker
+     * Generate custom marker using user photo
+     */
+    private void genMarker(){
         Bitmap src = BitmapFactory.decodeResource(getResources(), R.drawable.photo);
         Bitmap bmp = Bitmap.createScaledBitmap(src, 80, 80, false);
 
@@ -118,11 +147,22 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         canvas1.drawPath(path, color);
         canvas1.drawBitmap(bmp, border/2, border/2, color);
         mBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_me);
-
-        init();
     }
 
-    void init() {
+    private void clientLogin(){
+        AVIMClient client = AVIMClient.getInstance(mAVUser.getObjectId());
+        client.open(new AVIMClientCallback(){
+            @Override
+            public void done(AVIMClient client,AVIMException e){
+                if(e == null){
+                    mClient = client;
+                    Log.d(mAVUser.getObjectId(), "登录成功！");
+                }
+            }
+        });
+    }
+
+    private void initMap() {
         if (mAMap == null) {
             mAMap = mMapView.getMap();
             mAMap.getUiSettings().setRotateGesturesEnabled(false);
@@ -214,18 +254,12 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         }
     }
 
-    /**
-     * 方法必须重写
-     */
     @Override
     protected void onResume() {
         super.onResume();
         mMapView.onResume();
     }
 
-    /**
-     * 方法必须重写
-     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -233,18 +267,12 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         deactivate();
     }
 
-    /**
-     * 方法必须重写
-     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mMapView.onSaveInstanceState(outState);
     }
 
-    /**
-     * 方法必须重写
-     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -282,5 +310,14 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
                 finish();
                 break;
         }
+    }
+
+
+    public void TomCallJerry(View view) {
+        // 创建与fancy(5909d5f45c497d00585955d6)之间的对话
+        Intent intent = new Intent(getBaseContext(), CallerActivity.class);
+        intent.putExtra("peerId", "5909d5f45c497d00585955d6");
+        intent.putExtra("myGps", new double[]{mLatitude, mLongitude});
+        startActivity(intent);
     }
 }

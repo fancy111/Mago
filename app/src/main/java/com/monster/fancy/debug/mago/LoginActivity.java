@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //if the user has logged in,jump to the main page
+        // if the user has logged in, jump to the main page
         if (AVUser.getCurrentUser() != null) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             this.finish();

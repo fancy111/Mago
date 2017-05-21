@@ -35,6 +35,7 @@ import com.amap.api.navi.model.AMapNaviCameraInfo;
 import com.amap.api.navi.model.AMapNaviCross;
 import com.amap.api.navi.model.AMapNaviInfo;
 import com.amap.api.navi.model.AMapNaviLocation;
+import com.amap.api.navi.model.AMapNaviPath;
 import com.amap.api.navi.model.AMapNaviTrafficFacilityInfo;
 import com.amap.api.navi.model.AMapServiceAreaInfo;
 import com.amap.api.navi.model.AimLessModeCongestionInfo;
@@ -43,12 +44,28 @@ import com.amap.api.navi.model.NaviInfo;
 import com.amap.api.navi.model.NaviLatLng;
 import com.amap.api.navi.view.RouteOverLay;
 import com.autonavi.tbt.TrafficFacilityInfo;
+import com.avos.avoscloud.AVGeoPoint;
+import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
+import com.avos.avoscloud.im.v2.messages.AVIMLocationMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
+import com.google.gson.Gson;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static com.monster.fancy.debug.mago.MainActivity.mClient;
 
 /**
  * Created by rushzhou on 4/27/17.
  */
 
 public class LocaActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener, AMapNaviListener {
+    final static int CALLEE = 0;
+    final static int CALLER = 1;
 
     private AMap mAMap;
     private MapView mMapView;
@@ -67,14 +84,18 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
     private Bitmap bmp_me;
     private Bitmap bmp_friend;
 
-    private double mFriendLatitude = 38.98587022569444;
-    private double mFriendLongitude = 117.34032253689236;
-    private LatLng friendLatLng = new LatLng(mFriendLatitude, mFriendLongitude);
+    private double mFriendLatitude;
+    private double mFriendLongitude;
+    private LatLng friendLatLng;
     private double mLatitude;
     private double mLongitude;
 
     private AMapNavi mAMapNavi;
 
+    private int whoAmI;
+    private List<NaviLatLng> mCoordList;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loca);
@@ -84,7 +105,39 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         tvResult.setVisibility(View.GONE);
         mStartNaivBtn = (Button) findViewById(R.id.start_naiv_btn);
 
-        // generate custom marker using user photo
+        genMarker();
+
+        whoAmI = getIntent().getIntExtra("whoAmI", -1);
+
+        getPeerGps();
+
+        initMap();
+    }
+
+    private void getPeerGps() {
+        if (whoAmI == CALLEE) {
+            AVIMLocationMessage message = getIntent().getParcelableExtra("locationMessage");
+            AVGeoPoint peerGps = message.getLocation();
+            mFriendLatitude = peerGps.getLatitude();
+            mFriendLongitude = peerGps.getLongitude();
+            friendLatLng = new LatLng(mFriendLatitude, mFriendLongitude);
+        }
+        else if (whoAmI == CALLER){
+            AVIMLocationMessage message = getIntent().getParcelableExtra("locationMessage");
+            String jsonCoordList = message.getText();
+            Gson gson = new Gson();
+            mCoordList = gson.fromJson(jsonCoordList, List.class);
+            mFriendLatitude = mCoordList.get(mCoordList.size()-1).getLatitude();
+            mFriendLongitude = mCoordList.get(mCoordList.size()-1).getLongitude();
+            friendLatLng = new LatLng(mFriendLatitude, mFriendLongitude);
+        }
+    }
+
+    /**
+     * @function genMarker
+     * generate custom marker using user photo
+     */
+    private void genMarker() {
         Bitmap src = BitmapFactory.decodeResource(getResources(), R.drawable.photo);
         Bitmap bmp = Bitmap.createScaledBitmap(src, 80, 80, false);
 
@@ -103,9 +156,9 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         Point a = new Point(0, 0);
         Point b = new Point(width, 0);
         Point c = new Point(width, height - triHeight);
-        Point d = new Point((width/2)+(triWidth/2), height - triHeight);
-        Point e = new Point((width/2), height);
-        Point f = new Point((width/2)-(triWidth/2), height - triHeight);
+        Point d = new Point((width / 2) + (triWidth / 2), height - triHeight);
+        Point e = new Point((width / 2), height);
+        Point f = new Point((width / 2) - (triWidth / 2), height - triHeight);
         Point g = new Point(0, height - triHeight);
 
         Path path = new Path();
@@ -121,20 +174,17 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         color.setColor(Color.WHITE);
 
         canvas1.drawPath(path, color);
-        canvas1.drawBitmap(bmp, border/2, border/2, color);
+        canvas1.drawBitmap(bmp, border / 2, border / 2, color);
         mBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_me);
         canvas2.drawPath(path, color);
-        canvas2.drawBitmap(bmp, border/2, border/2, color);
+        canvas2.drawBitmap(bmp, border / 2, border / 2, color);
         mFriendBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_friend);
-
-        init();
     }
 
-    void init() {
+    private void initMap() {
         if (mAMap == null) {
             mAMap = mMapView.getMap();
             mAMap.getUiSettings().setRotateGesturesEnabled(false);
-            mAMap.moveCamera(CameraUpdateFactory.zoomBy(6));
             setUpMap();
         }
     }
@@ -166,7 +216,11 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         friendMarker = mAMap.addMarker(new MarkerOptions()
                 .icon(mFriendBitmapDescriptor)
                 .anchor(0.5f, 1));
-        // setup navigation listener
+
+        setUpNavi();
+    }
+
+    private void setUpNavi() {
         //获取AMapNavi实例
         mAMapNavi = AMapNavi.getInstance(getApplicationContext());
         //添加监听回调，用于处理算路成功
@@ -232,18 +286,12 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         }
     }
 
-    /**
-     * 方法必须重写
-     */
     @Override
     protected void onResume() {
         super.onResume();
         mMapView.onResume();
     }
 
-    /**
-     * 方法必须重写
-     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -251,18 +299,12 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         deactivate();
     }
 
-    /**
-     * 方法必须重写
-     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mMapView.onSaveInstanceState(outState);
     }
 
-    /**
-     * 方法必须重写
-     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -275,16 +317,24 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
     // Button listeners
     public void startNavigation(View view) {
         Intent intent = new Intent(getBaseContext(), NaviActivity.class);
-        double[] locations = new double[4];
-        locations[0] = mLatitude;
-        locations[1] = mLongitude;
-        locations[2] = mFriendLatitude;
-        locations[3] = mFriendLongitude;
-        intent.putExtra("EXTRA_LOCATIONS", locations);
+        if (whoAmI == CALLEE) {
+            double[] locations = new double[4];
+            locations[0] = mLatitude;
+            locations[1] = mLongitude;
+            locations[2] = mFriendLatitude;
+            locations[3] = mFriendLongitude;
+            intent.putExtra("EXTRA_LOCATIONS", locations);
+        }
+        else if(whoAmI == CALLER){
+
+        }
         startActivity(intent);
     }
 
-    // methods to implement because of AMapNaviListener
+    /**
+     * methods to implement because of AMapNaviListener (below)
+     */
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onInitNaviFailure() {
         String errText = "InitNaviFailure";
@@ -295,7 +345,11 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
 
     @Override
     public void onInitNaviSuccess() {
-        mAMapNavi.calculateWalkRoute(new NaviLatLng(mLatitude, mLongitude), new NaviLatLng(mFriendLatitude, mFriendLongitude));
+        if(whoAmI == CALLEE)
+            mAMapNavi.calculateWalkRoute(new NaviLatLng(mLatitude, mLongitude), new NaviLatLng(mFriendLatitude, mFriendLongitude));
+        else if(whoAmI == CALLER)
+            ;
+            //mAMapNavi.calculateWalkRoute(mCoordList);
     }
 
     @Override
@@ -310,7 +364,7 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
 
     @Override
     public void onLocationChange(AMapNaviLocation aMapNaviLocation) {
-        // mAMapNavi.calculateWalkRoute(aMapNaviLocation.getCoord(), new NaviLatLng(mFriendLatitude, mFriendLongitude));
+
     }
 
     @Override
@@ -337,8 +391,39 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         routeOverLay.setEndPointBitmap(bmp_friend);
         routeOverLay.removeFromMap();
         routeOverLay.addToMap();
-        // routeOverLay.zoomToSpan();
+        routeOverLay.zoomToSpan();
         mStartNaivBtn.setEnabled(true);
+
+        if(whoAmI == CALLEE) {
+            AMapNaviPath path = mAMapNavi.getNaviPath();
+            List<NaviLatLng> coordList = path.getCoordList();
+            Collections.reverse(coordList);
+            final List<NaviLatLng> coordListReverse = coordList;
+            AVIMLocationMessage message = getIntent().getParcelableExtra("locationMessage");
+            String from = message.getFrom();
+            mClient.createConversation(Arrays.asList(from), "what's up", null,
+                    new AVIMConversationCreatedCallback() {
+                        @Override
+                        public void done(AVIMConversation conversation, AVIMException e) {
+                            if (e == null) {
+                                AVIMTextMessage msg = new AVIMTextMessage();
+                                Gson gson = new Gson();
+                                String jsonCoordList = gson.toJson(coordListReverse);
+                                Log.d("jsonCoordList", jsonCoordList);
+                                msg.setText(jsonCoordList);
+                                // 发送消息
+                                conversation.sendMessage(msg, new AVIMConversationCallback() {
+                                    @Override
+                                    public void done(AVIMException e) {
+                                        if (e == null) {
+                                            Log.d("what's up", "发送成功！");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
@@ -366,7 +451,7 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
 
     @Override
     public void onGpsOpenStatus(boolean b) {
-        if(!b){
+        if (!b) {
             String errText = "Gps closed";
             Log.e("AmapErr", errText);
             tvResult.setVisibility(View.VISIBLE);
@@ -453,5 +538,6 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
     public void onPlayRing(int i) {
 
     }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

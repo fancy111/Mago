@@ -4,32 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundGray"
     tools:context="com.monster.fancy.debug.mago.CalleeActivity">
 
+
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/inviteAvatar_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="200dp"
+        android:adjustViewBounds="true"
         android:src="@drawable/photo"
-        android:scaleType="centerInside"/>
+        android:paddingBottom="50dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/inviteAvatar_img"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/inviteUsername_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fancy"
+            android:textColor="@color/ivory"
+            android:textSize="20sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inviteSharePosition"
+            android:textColor="@color/ivory"
+            android:textSize="20sp" />
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp">
 
-        <Button
-            android:layout_width="0dp"
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Answer"
+            android:src="@drawable/hangon_icon"
+            style="@style/imageBtnStyle"
+            android:layout_marginRight="80dp"
             android:onClick="answerCall"/>
 
-        <Button
-            android:layout_width="0dp"
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancel"
+            android:src="@drawable/hangup_icon"
+            style="@style/imageBtnStyle"
             android:onClick="cancelCall"/>
     </LinearLayout>
 </RelativeLayout>

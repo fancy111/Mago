@@ -46,11 +46,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name="com.amap.api.location.APSService" />
-        <!-- choose one below for debugging (rushzhou) -->
-        <activity android:name=".WelcomeActivity">
 
-            <!-- <activity android:name=".LocaActivity"> -->
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,28 +65,23 @@
         <activity android:name=".AddFriendActivity" />
         <activity android:name=".HudActivity" />
         <activity android:name=".NaviActivity" />
-        <activity android:name=".CalleeActivity" />
-        <activity android:name=".CallerActivity" />
+        <activity android:name=".CalleeActivity"/>
+        <activity android:name=".CallerActivity"/>
+        <activity android:name=".LocaActivity"/>
         <activity android:name=".SystemHelpActivity" />
         <activity android:name=".CallRecordsActivity" />
-
-        <!-- choose the other for debugging (rushzhou) -->
-        <activity android:name=".LocaActivity" />
-        <!-- <activity android:name=".WelcomeActivity" /> -->
-
 
         <!-- Gaode key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="ae1585ee86c8460eddd0b330c17d0158" />
         <!-- a2e08fe93712f3f2e1471771bd550230 -->
-
+        <!-- ae1585ee86c8460eddd0b330c17d0158 -->
+        <service android:name="com.amap.api.location.APSService" />
 
         <!-- LeanCloud -->
-        <!-- 实时通信模块、推送（均需要加入以下声明） START -->
-        <!-- 实时通信模块、推送都要使用 PushService -->
+        <!-- 实时通信模块、推送 -->
         <service android:name="com.avos.avoscloud.PushService" />
-
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -97,13 +89,11 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <!-- 实时通信模块、推送 END -->
-        <!-- 反馈组件（需要加入以下声明）START -->
+        <!-- 反馈组件 -->
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
-        <!-- 反馈组件 END -->
         <activity android:name=".AddFriendInfoActivity" />
+        <activity android:name=".GroupIntroActivity" />
         <activity android:name=".FunctionIntroActivity" />
-        <activity android:name=".GroupIntroActivity"></activity>
     </application>
 
 </manifest>

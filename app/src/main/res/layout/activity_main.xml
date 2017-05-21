@@ -22,6 +22,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tom Call Jerry"
+                    android:textSize="16sp"
+                    android:textAllCaps="false"
+                    android:onClick="TomCallJerry" />
+            </LinearLayout>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -52,6 +68,7 @@
             android:padding="20dp">
 
             <com.monster.fancy.debug.view.RoundImageView
+                android:id="@+id/mainAvatar_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -61,12 +78,14 @@
 
             <TextView
                 style="@style/textViewToolBarStyle"
+                android:id="@+id/mainUsername_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="fanfanfansiyu" />
 
             <TextView
+                android:id="@+id/mainPhoneNum_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -61,5 +61,7 @@
     <string name="chat_utils_hardLoading">努力加载中</string>
     <string name="mago_1_0_0">mago1.0.0 版本功能介绍</string>
     <string name="magoTeamIntro">Mago项目团队介绍</string>
+    <string name="inviteSharePosition">邀您进行位置共享...</string>
+    <string name="connecting">通话连接中...</string>
 
 </resources>
