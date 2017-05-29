@@ -131,7 +131,7 @@ public class FriendInfoActivity extends AppCompatActivity {
 
     //the onclick method for back button
     public void back(View view) {
-        Intent intent = new Intent(FriendInfoActivity.this,AdressListActivity.class);
+        Intent intent = new Intent(FriendInfoActivity.this, AdressListActivity.class);
         finish();
         startActivity(intent);
     }
@@ -151,10 +151,10 @@ public class FriendInfoActivity extends AppCompatActivity {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             //if is the find friend dialog,call the friend
-            if (dialog == dlgConfirm && which == Dialog.BUTTON_POSITIVE){
+            if (dialog == dlgConfirm && which == Dialog.BUTTON_POSITIVE) {
                 Toast.makeText(getApplicationContext(), "find", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(FriendInfoActivity.this,CallerActivity.class);
-                intent.putExtra("friend",friend);
+                Intent intent = new Intent(FriendInfoActivity.this, CallerActivity.class);
+                intent.putExtra("friend", friend);
                 startActivity(intent);
             }
 

@@ -42,11 +42,16 @@ public class HudActivity extends Activity implements AMapHudViewListener, AMapNa
         mAMapNavi.addAMapNaviListener(this);
         mAMapNavi.setEmulatorNaviSpeed(150);
 
-        double[] locations = getIntent().getDoubleArrayExtra("EXTRA_LOCATIONS");
-        mLatitude = locations[0];
-        mLongitude = locations[1];
-        mFriendLatitude = locations[2];
-        mFriendLongitude = locations[3];
+        mLatitude = 37.422005;
+        mLongitude = -122.084095;
+        mFriendLatitude = 37.422015;
+        mFriendLongitude = -122.084096;
+//
+//        double[] locations = getIntent().getDoubleArrayExtra("EXTRA_LOCATIONS");
+//        mLatitude = locations[0];
+//        mLongitude = locations[1];
+//        mFriendLatitude = locations[2];
+//        mFriendLongitude = locations[3];
 
         setContentView(R.layout.activity_hud);
         mAMapHudView = (AMapHudView) findViewById(R.id.hud_view);

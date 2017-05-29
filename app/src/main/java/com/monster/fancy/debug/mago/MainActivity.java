@@ -110,7 +110,7 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
      * @function genMarker
      * Generate custom marker using user photo
      */
-    private void genMarker(){
+    private void genMarker() {
         Bitmap src = BitmapFactory.decodeResource(getResources(), R.drawable.photo);
         Bitmap bmp = Bitmap.createScaledBitmap(src, 80, 80, false);
 
@@ -149,12 +149,12 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         mBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_me);
     }
 
-    private void clientLogin(){
+    private void clientLogin() {
         AVIMClient client = AVIMClient.getInstance(mAVUser.getObjectId());
-        client.open(new AVIMClientCallback(){
+        client.open(new AVIMClientCallback() {
             @Override
-            public void done(AVIMClient client,AVIMException e){
-                if(e == null){
+            public void done(AVIMClient client, AVIMException e) {
+                if (e == null) {
                     mClient = client;
                     Log.d(mAVUser.getObjectId(), "登录成功！");
                 }
@@ -315,7 +315,7 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
 
     public void TomCallJerry(View view) {
         // 创建与fancy(5909d5f45c497d00585955d6)之间的对话
-        Intent intent = new Intent(getBaseContext(), CallerActivity.class);
+        Intent intent = new Intent(getBaseContext(), MagoActivity.class);
         intent.putExtra("peerId", "5909d5f45c497d00585955d6");
         intent.putExtra("myGps", new double[]{mLatitude, mLongitude});
         startActivity(intent);

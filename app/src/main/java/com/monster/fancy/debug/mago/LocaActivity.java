@@ -121,14 +121,13 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
             mFriendLatitude = peerGps.getLatitude();
             mFriendLongitude = peerGps.getLongitude();
             friendLatLng = new LatLng(mFriendLatitude, mFriendLongitude);
-        }
-        else if (whoAmI == CALLER){
+        } else if (whoAmI == CALLER) {
             AVIMLocationMessage message = getIntent().getParcelableExtra("locationMessage");
             String jsonCoordList = message.getText();
             Gson gson = new Gson();
             mCoordList = gson.fromJson(jsonCoordList, List.class);
-            mFriendLatitude = mCoordList.get(mCoordList.size()-1).getLatitude();
-            mFriendLongitude = mCoordList.get(mCoordList.size()-1).getLongitude();
+            mFriendLatitude = mCoordList.get(mCoordList.size() - 1).getLatitude();
+            mFriendLongitude = mCoordList.get(mCoordList.size() - 1).getLongitude();
             friendLatLng = new LatLng(mFriendLatitude, mFriendLongitude);
         }
     }
@@ -324,8 +323,7 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
             locations[2] = mFriendLatitude;
             locations[3] = mFriendLongitude;
             intent.putExtra("EXTRA_LOCATIONS", locations);
-        }
-        else if(whoAmI == CALLER){
+        } else if (whoAmI == CALLER) {
 
         }
         startActivity(intent);
@@ -345,11 +343,11 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
 
     @Override
     public void onInitNaviSuccess() {
-        if(whoAmI == CALLEE)
+        if (whoAmI == CALLEE)
             mAMapNavi.calculateWalkRoute(new NaviLatLng(mLatitude, mLongitude), new NaviLatLng(mFriendLatitude, mFriendLongitude));
-        else if(whoAmI == CALLER)
+        else if (whoAmI == CALLER)
             ;
-            //mAMapNavi.calculateWalkRoute(mCoordList);
+        //mAMapNavi.calculateWalkRoute(mCoordList);
     }
 
     @Override
@@ -394,7 +392,7 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         routeOverLay.zoomToSpan();
         mStartNaivBtn.setEnabled(true);
 
-        if(whoAmI == CALLEE) {
+        if (whoAmI == CALLEE) {
             AMapNaviPath path = mAMapNavi.getNaviPath();
             List<NaviLatLng> coordList = path.getCoordList();
             Collections.reverse(coordList);
