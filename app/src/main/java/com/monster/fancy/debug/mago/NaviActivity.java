@@ -56,7 +56,7 @@ public class NaviActivity extends BaseActivity{
 
     // button listener
     public void startHud(View view) {
-        Intent intent = new Intent(getBaseContext(), HudActivity.class);
+        Intent intent = new Intent(getBaseContext(), MagoActivity.class);
         double[] locations = new double[4];
         locations[0] = mLatitude;
         locations[1] = mLongitude;

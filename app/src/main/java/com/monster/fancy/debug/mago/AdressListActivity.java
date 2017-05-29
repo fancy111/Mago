@@ -1,12 +1,12 @@
 package com.monster.fancy.debug.mago;
 
 import android.content.Intent;
-import android.location.Address;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
@@ -23,9 +22,7 @@ import com.monster.fancy.debug.dao.Friend;
 import com.monster.fancy.debug.util.CharacterParser;
 import com.monster.fancy.debug.util.PinyinComparator;
 import com.monster.fancy.debug.view.SideBar;
-import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +43,8 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
 
     private UserFriendListAdapter friendListAdapter;
 
+    private double[] myGps; // pass from MainActivity, and will pass to FriendInfoActivity
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +53,8 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
         friend_sideBar = (SideBar) findViewById(R.id.friend_sideBar);
         friend_lst = (ListView) findViewById(R.id.friend_lst);
 
+        myGps = getIntent().getDoubleArrayExtra("myGps");
+
         //set the listener for the listView
         friend_lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,6 +62,12 @@ public class AdressListActivity extends AppCompatActivity implements SideBar.OnT
                 Friend friend = sortDataList.get(position);
                 Intent intent = new Intent(AdressListActivity.this, FriendInfoActivity.class);
                 intent.putExtra("friend", friend);
+
+                //这里有bug，当我刚添加一个好友，然后点击这个
+                // 刚添加的好友的时候，myGps这个变量为空！
+                intent.putExtra("myGps", myGps);
+                Log.d("hello_debug", "" + myGps[0]);
+                Log.d("hello_debug", "" + myGps[1]);
                 finish();
                 startActivity(intent);
             }

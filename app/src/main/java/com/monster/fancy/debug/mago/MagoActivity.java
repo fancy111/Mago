@@ -1,15 +1,22 @@
 package com.monster.fancy.debug.mago;
 
-import android.graphics.drawable.Drawable;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.SpannableString;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviListener;
+import com.amap.api.navi.enums.IconType;
 import com.amap.api.navi.enums.NaviType;
 import com.amap.api.navi.model.AMapLaneInfo;
 import com.amap.api.navi.model.AMapNaviCameraInfo;
@@ -25,7 +32,7 @@ import com.amap.api.navi.model.NaviLatLng;
 import com.autonavi.tbt.TrafficFacilityInfo;
 
 public class MagoActivity extends AppCompatActivity implements AMapNaviListener {
-    static final int[] hud_imgActions = new int[]{R.drawable.mago, R.drawable.mago, R.drawable.mago, R.drawable.mago, R.drawable.mago, R.drawable.mago};
+    //static final int[] hud_imgActions = new int[31];
 
     private double mFriendLatitude;
     private double mFriendLongitude;
@@ -36,13 +43,18 @@ public class MagoActivity extends AppCompatActivity implements AMapNaviListener 
     private String restDistanceTextStr;
     private String nextRoadDisTextStr;
     private int resId;
+    private int lastResId;
 
     private TextView nextRoadNameText;
     private TextView restDistanceText;
-    private ImageView roadsignimg;
+    private ImageView roadsignImg;
     private TextView nextRoadDistanceText;
 
     private AMapNavi mAMapNavi;
+
+    //MAGO的动画
+    Animation rotateAnimBack = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +71,102 @@ public class MagoActivity extends AppCompatActivity implements AMapNaviListener 
         init();
     }
 
+    //rotate the mago
+    private void rotateImage(int resId){
+        //初始化动画
+        Animation rotateAnim = null;
 
-    private void init() {
+        switch (resId){
+            case IconType.LEFT:
+                //set the last time resId;
+                lastResId = resId;
+                rotateAnim = AnimationUtils.loadAnimation(this,R.anim.left);
+                break;
+            case IconType.RIGHT:
+                //set the last time resId;
+                lastResId = resId;
+                rotateAnim = AnimationUtils.loadAnimation(this,R.anim.right);
+                break;
+            case IconType.LEFT_FRONT:
+                //set the last time resId;
+                lastResId = resId;
+                rotateAnim = AnimationUtils.loadAnimation(this,R.anim.leftfront);
+                break;
+            case IconType.RIGHT_FRONT:
+                //set the last time resId;
+                lastResId = resId;
+                rotateAnim = AnimationUtils.loadAnimation(this,R.anim.rightfront);
+                break;
+            case IconType.LEFT_BACK:
+                //set the last time resId;
+                lastResId = resId;
+                rotateAnim = AnimationUtils.loadAnimation(this,R.anim.leftback);
+                break;
+            case IconType.RIGHT_BACK:
+                //set the last time resId;
+                lastResId = resId;
+                rotateAnim = AnimationUtils.loadAnimation(this,R.anim.rightback);
+                break;
+            case IconType.STRAIGHT:
+                //if now the sig is go straight,rotate back the mago
+                rotateBackMago(lastResId);
+                //set the last time resId;
+                lastResId = -1;
+            default:
+                lastResId = -1;
+                break;
+        }
+        //start the animation
+        if(rotateAnim != null)
+        {
+            //动画为线性的
+            rotateAnim.setInterpolator(new LinearInterpolator());
+
+            rotateAnim.setFillAfter(true);
+
+            roadsignImg.setImageResource(R.drawable.magoline);
+
+            //开始动画
+            roadsignImg.startAnimation(rotateAnim);
+        }
+    }
+
+    private void rotateBackMago(int id){
+        Toast.makeText(getApplicationContext(),"back :"+id,Toast.LENGTH_SHORT).show();
+        switch (id){
+            case IconType.LEFT:
+                rotateAnimBack = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.tleft);
+                break;
+            case IconType.RIGHT:
+                rotateAnimBack = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.tright);
+                break;
+            case IconType.LEFT_FRONT:
+                rotateAnimBack = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.tleftfront);
+                break;
+            case IconType.RIGHT_FRONT:
+                rotateAnimBack = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.trightfront);
+                break;
+            case IconType.LEFT_BACK:
+                rotateAnimBack = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.tleftback);
+                break;
+            case IconType.RIGHT_BACK:
+                rotateAnimBack = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.trightback);
+                break;
+            default:
+                break;
+        }
+        if(rotateAnimBack != null)
+        {
+            lastResId = -1;
+            rotateAnimBack.setInterpolator(new LinearInterpolator());
+            roadsignImg.startAnimation(rotateAnimBack);
+            roadsignImg.setImageResource(R.drawable.mago);
+        }
+    }
+
+
+    private void init(){
+        Log.d("mago activity","now is in init function");
         //初始化控件
         initWidgets();
 
@@ -69,60 +175,75 @@ public class MagoActivity extends AppCompatActivity implements AMapNaviListener 
         //添加监听回调，用于处理算路成功
         mAMapNavi.addAMapNaviListener(this);
 
-        this.onNaviInfoUpdate(this.mAMapNavi.getNaviInfo());
+        //计算路径
+        mAMapNavi.calculateWalkRoute(new NaviLatLng(mLatitude, mLongitude), new NaviLatLng(mFriendLatitude, mFriendLongitude));
 
+
+        this.onNaviInfoUpdate(this.mAMapNavi.getNaviInfo());
+        Log.d("mago activity","now init function is over");
     }
 
     /**
      * init the widgets
      */
-    private void initWidgets() {
+    private void initWidgets(){
+        Log.d("mago activity","now is in initWidgets function");
         this.restDistanceText = (TextView) findViewById(R.id.restDistanceText);
         this.nextRoadNameText = (TextView) findViewById(R.id.nextRoadNameText);
         this.nextRoadDistanceText = (TextView) findViewById(R.id.nextRoadDistanceText);
-        this.roadsignimg = (ImageView) findViewById(R.id.roadsignimg);
+        this.roadsignImg = (ImageView) findViewById(R.id.roadsignimg);
 
         this.updateWidgetContent();
+        Log.d("mago activity","now initWidgets function is over");
     }
 
     /**
      * 更新控件信息
      */
-    private void updateWidgetContent() {
-        if (this.nextRoadNameText != null) {
+    private void updateWidgetContent(){
+        Log.d("mago activity","now is in updateWidgetContent function");
+        if(this.nextRoadNameText != null) {
             this.nextRoadNameText.setText(this.nextRoadNameTextStr);
+            Log.d("mago activity","nextRoadNameTextStr is "+ nextRoadNameTextStr);
         }
 
-        if (this.nextRoadDistanceText != null) {
+        if(this.nextRoadDistanceText != null) {
             this.nextRoadDistanceText.setText(this.nextRoadDisTextStr);
+            Log.d("mago activity","nextRoadDisTextStr is "+ nextRoadDisTextStr);
         }
 
-        if (this.restDistanceText != null) {
+        if(this.restDistanceText != null) {
             this.restDistanceText.setText(this.restDistanceTextStr);
+            Log.d("mago activity","restDistanceTextStr is "+ restDistanceTextStr);
         }
 
-        if (this.roadsignimg != null && this.resId != 0 && this.resId != 1) {
-            this.roadsignimg.setImageResource(hud_imgActions[this.resId]);
+        if(this.roadsignImg != null && this.resId != 0 && this.resId != 1) {
+            Log.d("mago activity","resId is "+ resId);
+            rotateImage(resId);
+
+            //clear the rotate animation
+            roadsignImg.clearAnimation();
+
+            //this.roadsignimg.setImageResource(hud_imgActions[this.resId]);
         }
 
+        Log.d("mago activity","now updateWidgetContent function is over");
     }
 
     /**
      * 更新界面
-     *
      * @param naviInfo 导航信息
      */
     private void updateMagoUI(NaviInfo naviInfo) {
-        if (naviInfo == null) {
+        if(naviInfo == null) {
             return;
         }
 
         //更新导航的数据
         this.nextRoadNameTextStr = naviInfo.getNextRoadName();
-        this.restDistanceTextStr = naviInfo.getPathRetainDistance() + "米";
-        this.nextRoadDisTextStr = naviInfo.m_SegRemainDis + "米";
-        this.resId = naviInfo.m_Icon;
-
+        this.restDistanceTextStr = naviInfo.getPathRetainDistance()+"米";
+        this.nextRoadDisTextStr = naviInfo.m_SegRemainDis+"米";
+        this.resId = naviInfo.getIconType();
         //更新界面
         this.updateWidgetContent();
 
@@ -136,13 +257,11 @@ public class MagoActivity extends AppCompatActivity implements AMapNaviListener 
     }
 
     /**
-     * 当 AMapNavi 对象初始化成功后，会进入 onInitNaviSuccess
+     *当 AMapNavi 对象初始化成功后，会进入 onInitNaviSuccess
      * 回调函数，在该回调函数中调用路径规划方法计算路径。
      */
     @Override
     public void onInitNaviSuccess() {
-        //计算路径
-        mAMapNavi.calculateWalkRoute(new NaviLatLng(mLatitude, mLongitude), new NaviLatLng(mFriendLatitude, mFriendLongitude));
     }
 
     @Override
@@ -297,5 +416,33 @@ public class MagoActivity extends AppCompatActivity implements AMapNaviListener 
         mAMapNavi.stopNavi();
         //结束界面
         finish();
+    }
+
+    //测试磁铁旋转用的
+    public void rotate(View view) {
+        switch (view.getId()){
+            case R.id.leftBtn:
+                rotateImage(IconType.LEFT);
+                break;
+            case R.id.rightBtn:
+                rotateImage(IconType.RIGHT);
+                break;
+            case R.id.leftFrontBtn:
+                rotateImage(IconType.LEFT_FRONT);
+                break;
+            case R.id.rightFrontBtn:
+                rotateImage(IconType.RIGHT_FRONT);
+                break;
+            case R.id.leftBackBtn:
+                rotateImage(IconType.LEFT_BACK);
+                break;
+            case R.id.rightBackBtn:
+                rotateImage(IconType.RIGHT_BACK);
+                break;
+            case R.id.straightBtn:
+                rotateImage(IconType.STRAIGHT);
+                break;
+
+        }
     }
 }

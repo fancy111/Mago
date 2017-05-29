@@ -44,7 +44,11 @@ import com.amap.api.navi.model.NaviInfo;
 import com.amap.api.navi.model.NaviLatLng;
 import com.amap.api.navi.view.RouteOverLay;
 import com.autonavi.tbt.TrafficFacilityInfo;
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVGeoPoint;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
@@ -53,6 +57,12 @@ import com.avos.avoscloud.im.v2.messages.AVIMLocationMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -93,7 +103,8 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
     private AMapNavi mAMapNavi;
 
     private int whoAmI;
-    private List<NaviLatLng> mCoordList;
+    private boolean firstTime;
+    private String peerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +115,12 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         tvResult = (TextView) findViewById(R.id.tv_result);
         tvResult.setVisibility(View.GONE);
         mStartNaivBtn = (Button) findViewById(R.id.start_naiv_btn);
-
-        genMarker();
+        firstTime = true;
 
         whoAmI = getIntent().getIntExtra("whoAmI", -1);
+        peerId = getIntent().getStringExtra("peerId");
+
+        genMarker();
 
         getPeerGps();
 
@@ -115,69 +128,92 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
     }
 
     private void getPeerGps() {
-        if (whoAmI == CALLEE) {
-            AVIMLocationMessage message = getIntent().getParcelableExtra("locationMessage");
-            AVGeoPoint peerGps = message.getLocation();
-            mFriendLatitude = peerGps.getLatitude();
-            mFriendLongitude = peerGps.getLongitude();
-            friendLatLng = new LatLng(mFriendLatitude, mFriendLongitude);
-        } else if (whoAmI == CALLER) {
-            AVIMLocationMessage message = getIntent().getParcelableExtra("locationMessage");
-            String jsonCoordList = message.getText();
-            Gson gson = new Gson();
-            mCoordList = gson.fromJson(jsonCoordList, List.class);
-            mFriendLatitude = mCoordList.get(mCoordList.size() - 1).getLatitude();
-            mFriendLongitude = mCoordList.get(mCoordList.size() - 1).getLongitude();
-            friendLatLng = new LatLng(mFriendLatitude, mFriendLongitude);
+        AVIMLocationMessage message = getIntent().getParcelableExtra("locationMessage");
+        AVGeoPoint peerGps = message.getLocation();
+        mFriendLatitude = peerGps.getLatitude();
+        mFriendLongitude = peerGps.getLongitude();
+        friendLatLng = new LatLng(mFriendLatitude, mFriendLongitude);
+    }
+
+    private Bitmap getBitmap(String path) {
+        try {
+            URL url = new URL(path);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            if (conn.getResponseCode() == 200){
+                InputStream inputStream = conn.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                return bitmap;
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**
-     * @function genMarker
      * generate custom marker using user photo
      */
     private void genMarker() {
-        Bitmap src = BitmapFactory.decodeResource(getResources(), R.drawable.photo);
-        Bitmap bmp = Bitmap.createScaledBitmap(src, 80, 80, false);
+        AVQuery<AVUser> avQuery = new AVQuery<>("_User");
+        avQuery.getInBackground(peerId, new GetCallback<AVUser>() {
+            @Override
+            public void done(AVUser friend, AVException ae) {
+                Bitmap src = BitmapFactory.decodeResource(getResources(),R.drawable.photo);
+                if (AVUser.getCurrentUser().getAVFile("avatar") != null)
+                    src = getBitmap(AVUser.getCurrentUser().getAVFile("avatar").getUrl());
+                Bitmap bmp = Bitmap.createScaledBitmap(src, 80, 80, false);
 
-        int border = 10;
-        int triWidth = 20;
-        int triHeight = 20;
-        int width = 80 + border;
-        int height = 80 + border + triHeight;
-        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-        bmp_me = Bitmap.createBitmap(width, height, conf);
-        bmp_friend = Bitmap.createBitmap(width, height, conf);
+                Bitmap src_f = BitmapFactory.decodeResource(getResources(),R.drawable.photo);
+                if (friend.getAVFile("avatar") != null)
+                    src_f = getBitmap(friend.getAVFile("avatar").getUrl());
+                Bitmap bmp_f = Bitmap.createScaledBitmap(src_f, 80, 80, false);
 
-        Canvas canvas1 = new Canvas(bmp_me);
-        Canvas canvas2 = new Canvas(bmp_friend);
+                int border = 10;
+                int triWidth = 20;
+                int triHeight = 20;
+                int width = 80 + border;
+                int height = 80 + border + triHeight;
+                Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+                bmp_me = Bitmap.createBitmap(width, height, conf);
+                bmp_friend = Bitmap.createBitmap(width, height, conf);
 
-        Point a = new Point(0, 0);
-        Point b = new Point(width, 0);
-        Point c = new Point(width, height - triHeight);
-        Point d = new Point((width / 2) + (triWidth / 2), height - triHeight);
-        Point e = new Point((width / 2), height);
-        Point f = new Point((width / 2) - (triWidth / 2), height - triHeight);
-        Point g = new Point(0, height - triHeight);
+                Canvas canvas1 = new Canvas(bmp_me);
+                Canvas canvas2 = new Canvas(bmp_friend);
 
-        Path path = new Path();
-        path.moveTo(a.x, a.y);
-        path.lineTo(b.x, b.y);
-        path.lineTo(c.x, c.y);
-        path.lineTo(d.x, d.y);
-        path.lineTo(e.x, e.y);
-        path.lineTo(f.x, f.y);
-        path.lineTo(g.x, g.y);
+                Point a = new Point(0, 0);
+                Point b = new Point(width, 0);
+                Point c = new Point(width, height - triHeight);
+                Point d = new Point((width / 2) + (triWidth / 2), height - triHeight);
+                Point e = new Point((width / 2), height);
+                Point f = new Point((width / 2) - (triWidth / 2), height - triHeight);
+                Point g = new Point(0, height - triHeight);
 
-        Paint color = new Paint();
-        color.setColor(Color.WHITE);
+                Path path = new Path();
+                path.moveTo(a.x, a.y);
+                path.lineTo(b.x, b.y);
+                path.lineTo(c.x, c.y);
+                path.lineTo(d.x, d.y);
+                path.lineTo(e.x, e.y);
+                path.lineTo(f.x, f.y);
+                path.lineTo(g.x, g.y);
 
-        canvas1.drawPath(path, color);
-        canvas1.drawBitmap(bmp, border / 2, border / 2, color);
-        mBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_me);
-        canvas2.drawPath(path, color);
-        canvas2.drawBitmap(bmp, border / 2, border / 2, color);
-        mFriendBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_friend);
+                Paint color = new Paint();
+                color.setColor(Color.WHITE);
+
+                canvas1.drawPath(path, color);
+                canvas1.drawBitmap(bmp, border / 2, border / 2, color);
+                mBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_me);
+                canvas2.drawPath(path, color);
+                canvas2.drawBitmap(bmp_f, border / 2, border / 2, color);
+                mFriendBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bmp_friend);
+            }
+        });
     }
 
     private void initMap() {
@@ -265,6 +301,31 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
                 mListener.onLocationChanged(aMapLocation);
                 mLatitude = aMapLocation.getLatitude();
                 mLongitude = aMapLocation.getLongitude();
+                if (firstTime && whoAmI==CALLEE) {
+                    firstTime = false;
+                    mClient.createConversation(Arrays.asList(peerId), "whatsup", null,
+                            new AVIMConversationCreatedCallback() {
+                                @Override
+                                public void done(AVIMConversation conversation, AVIMException e) {
+                                    if (e == null) {
+                                        AVIMLocationMessage msg = new AVIMLocationMessage();
+                                        msg.setLocation(new AVGeoPoint(mLatitude, mLongitude));
+                                        // 发送消息
+                                        conversation.sendMessage(msg, new AVIMConversationCallback() {
+                                            @Override
+                                            public void done(AVIMException e) {
+                                                if (e == null) {
+                                                    Log.d("whatsup", "发送成功！");
+                                                }
+                                                else {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                }
                 LatLng latLng = new LatLng(mLatitude, mLongitude);
                 mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
                 mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
@@ -316,16 +377,12 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
     // Button listeners
     public void startNavigation(View view) {
         Intent intent = new Intent(getBaseContext(), NaviActivity.class);
-        if (whoAmI == CALLEE) {
-            double[] locations = new double[4];
-            locations[0] = mLatitude;
-            locations[1] = mLongitude;
-            locations[2] = mFriendLatitude;
-            locations[3] = mFriendLongitude;
-            intent.putExtra("EXTRA_LOCATIONS", locations);
-        } else if (whoAmI == CALLER) {
-
-        }
+        double[] locations = new double[4];
+        locations[0] = mLatitude;
+        locations[1] = mLongitude;
+        locations[2] = mFriendLatitude;
+        locations[3] = mFriendLongitude;
+        intent.putExtra("EXTRA_LOCATIONS", locations);
         startActivity(intent);
     }
 
@@ -343,11 +400,11 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
 
     @Override
     public void onInitNaviSuccess() {
-        if (whoAmI == CALLEE)
+        if(whoAmI == CALLEE)
             mAMapNavi.calculateWalkRoute(new NaviLatLng(mLatitude, mLongitude), new NaviLatLng(mFriendLatitude, mFriendLongitude));
-        else if (whoAmI == CALLER)
+        else if(whoAmI == CALLER)
             ;
-        //mAMapNavi.calculateWalkRoute(mCoordList);
+            //mAMapNavi.calculateWalkRoute(mCoordList);
     }
 
     @Override
@@ -392,7 +449,7 @@ public class LocaActivity extends CheckPermissionsActivity implements LocationSo
         routeOverLay.zoomToSpan();
         mStartNaivBtn.setEnabled(true);
 
-        if (whoAmI == CALLEE) {
+        if(whoAmI == CALLEE) {
             AMapNaviPath path = mAMapNavi.getNaviPath();
             List<NaviLatLng> coordList = path.getCoordList();
             Collections.reverse(coordList);

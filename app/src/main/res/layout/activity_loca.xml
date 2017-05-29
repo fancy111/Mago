@@ -24,8 +24,7 @@
             android:text="StartNavigation"
             android:textSize="16sp"
             android:textAllCaps="false"
-            android:onClick="startNavigation"
-            android:enabled="false"/>
+            android:onClick="startNavigation" />
     </LinearLayout>
 
     <ScrollView
