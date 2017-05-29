@@ -37,6 +37,13 @@ import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
 public class MainActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
 
 
@@ -65,6 +72,8 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
 
     private AVUser mAVUser;
     static public AVIMClient mClient;
+
+    private AVFile avatarFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,17 +110,38 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         usernameText.setText(mAVUser.getUsername());
         phonenumText.setText(mAVUser.getMobilePhoneNumber());
         if (mAVUser.getAVFile("avatar") != null) {
-            AVFile avatarFile = mAVUser.getAVFile("avatar");
+            avatarFile = mAVUser.getAVFile("avatar");
             Picasso.with(MainActivity.this).load(avatarFile.getUrl()).into(avatarImg);
         }
     }
 
+    private Bitmap getBitmap(String path) {
+        try {
+            URL url = new URL(path);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            if (conn.getResponseCode() == 200){
+                InputStream inputStream = conn.getInputStream();
+                return BitmapFactory.decodeStream(inputStream);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
-     * @function genMarker
      * Generate custom marker using user photo
      */
     private void genMarker(){
-        Bitmap src = BitmapFactory.decodeResource(getResources(), R.drawable.photo);
+        Bitmap src = BitmapFactory.decodeResource(getResources(),R.drawable.photo);
+        if (avatarFile != null)
+            src = getBitmap(avatarFile.getUrl());
         Bitmap bmp = Bitmap.createScaledBitmap(src, 80, 80, false);
 
         int border = 10;
@@ -187,7 +217,7 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         // myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_SHOW);
         //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        myLocationStyle.interval(2000);
+        myLocationStyle.interval(10000);
         // 将自定义的 myLocationStyle 对象添加到地图上
         mAMap.setMyLocationStyle(myLocationStyle);
         // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
@@ -288,6 +318,7 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         switch (id) {
             case R.id.myfriend_text:
                 intent = new Intent(MainActivity.this, AdressListActivity.class);
+                intent.putExtra("myGps", new double[]{mLatitude, mLongitude});
                 startActivity(intent);
                 break;
             case R.id.setting_text:
@@ -310,14 +341,5 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
                 finish();
                 break;
         }
-    }
-
-
-    public void TomCallJerry(View view) {
-        // 创建与fancy(5909d5f45c497d00585955d6)之间的对话
-        Intent intent = new Intent(getBaseContext(), CallerActivity.class);
-        intent.putExtra("peerId", "5909d5f45c497d00585955d6");
-        intent.putExtra("myGps", new double[]{mLatitude, mLongitude});
-        startActivity(intent);
     }
 }
