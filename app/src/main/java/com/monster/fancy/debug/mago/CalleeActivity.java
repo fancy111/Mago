@@ -16,9 +16,15 @@ public class CalleeActivity extends AppCompatActivity {
 
     private ImageView inviteImg;
 
+    private AVIMLocationMessage message;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        message = getIntent().getParcelableExtra("locationMessage");
+        String friendId = message.getFrom();
+
         setContentView(R.layout.activity_callee);
         inviteImg = (ImageView) findViewById(R.id.inviteAvatar_img);
 
@@ -32,11 +38,12 @@ public class CalleeActivity extends AppCompatActivity {
     }
 
     public void answerCall(View view){
-        AVIMLocationMessage message = getIntent().getParcelableExtra("locationMessage");
         Intent intent = new Intent(getBaseContext(), LocaActivity.class);
         intent.putExtra("whoAmI", CALLEE);
         intent.putExtra("locationMessage", message);
+        intent.putExtra("peerId", message.getFrom());
         startActivity(intent);
+        finish();
     }
 
     public void cancelCall(View view) {

@@ -3,6 +3,7 @@ package com.monster.fancy.debug.util;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.im.v2.AVIMClient;
@@ -11,8 +12,8 @@ import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageHandler;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
 import com.avos.avoscloud.im.v2.messages.AVIMLocationMessage;
-import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.monster.fancy.debug.mago.CalleeActivity;
+import com.monster.fancy.debug.mago.CallerActivity;
 import com.monster.fancy.debug.mago.LocaActivity;
 
 
@@ -32,17 +33,25 @@ public class MyLeanCloudApp extends Application {
         //接收到消息后的处理逻辑
         @Override
         public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client) {
-            if (message instanceof AVIMTextMessage) {
-                Intent intent = new Intent(ctx, LocaActivity.class);
-                intent.putExtra("whoAmI", CALLER);
-                intent.putExtra("locationMessage", message);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ctx.startActivity(intent);
-            } else if (message instanceof AVIMLocationMessage) {
-                Intent intent = new Intent(ctx, CalleeActivity.class);
-                intent.putExtra("locationMessage", message);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ctx.startActivity(intent);
+            if (message instanceof AVIMLocationMessage) {
+                String text = conversation.getName();
+                Log.d("conversation name", text);
+                if (text.equals("hello")){
+                    Intent intent = new Intent(ctx, CalleeActivity.class);
+                    intent.putExtra("locationMessage", message);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ctx.startActivity(intent);
+                }
+                else if (text.equals("whatsup")){
+                    CallerActivity.instance.finish();
+                    Intent intent = new Intent(ctx, LocaActivity.class);
+                    intent.putExtra("locationMessage", message);
+                    intent.putExtra("whoAmI", CALLER);
+                    intent.putExtra("peerId", message.getFrom());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ctx.startActivity(intent);
+                }
+
             }
         }
     }

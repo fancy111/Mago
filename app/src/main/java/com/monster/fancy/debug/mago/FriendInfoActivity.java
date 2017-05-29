@@ -3,10 +3,9 @@ package com.monster.fancy.debug.mago;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,13 +15,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.avos.avoscloud.AVCloudQueryResult;
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.CloudQueryCallback;
 import com.avos.avoscloud.DeleteCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.FollowCallback;
@@ -46,6 +42,8 @@ public class FriendInfoActivity extends AppCompatActivity {
     private Switch setStar_btn;
     private Friend friend;
 
+    private double[] myGps; // pass from AdressListActivity, and will pass to CallerActivity
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +60,7 @@ public class FriendInfoActivity extends AppCompatActivity {
         //accept the parameter from address_list page
         Intent intent = this.getIntent();
         friend = (Friend) intent.getSerializableExtra("friend");
+        myGps = getIntent().getDoubleArrayExtra("myGps");
         //set the friend information
         setFriendInfo(friend);
 
@@ -132,6 +131,7 @@ public class FriendInfoActivity extends AppCompatActivity {
     //the onclick method for back button
     public void back(View view) {
         Intent intent = new Intent(FriendInfoActivity.this,AdressListActivity.class);
+        intent.putExtra("myGps", myGps);
         finish();
         startActivity(intent);
     }
@@ -152,9 +152,10 @@ public class FriendInfoActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             //if is the find friend dialog,call the friend
             if (dialog == dlgConfirm && which == Dialog.BUTTON_POSITIVE){
-                Toast.makeText(getApplicationContext(), "find", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), friend.getID()+"\n"+AVUser.getCurrentUser().getObjectId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(FriendInfoActivity.this,CallerActivity.class);
                 intent.putExtra("friend",friend);
+                intent.putExtra("myGps", myGps);
                 startActivity(intent);
             }
 

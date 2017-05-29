@@ -1,8 +1,7 @@
 package com.monster.fancy.debug.mago;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMLocationMessage;
-import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.monster.fancy.debug.dao.Friend;
 import com.squareup.picasso.Picasso;
 
@@ -30,11 +28,15 @@ public class CallerActivity extends AppCompatActivity {
 
     private ImageView inviterImg;
 
+    public static CallerActivity instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
+
         setContentView(R.layout.activity_caller);
-        //here i change to receive the object friend,because i need to
+        // here i change to receive the object friend, because i need to
         // show the friend's avatar
         Friend friend = (Friend) getIntent().getSerializableExtra("friend");
         String peerId = friend.getID();
@@ -53,6 +55,8 @@ public class CallerActivity extends AppCompatActivity {
                         if (e == null) {
                             AVIMLocationMessage msg = new AVIMLocationMessage();
                             msg.setLocation(new AVGeoPoint(myGps[0], myGps[1]));
+                            Log.d("hello", "" + myGps[0]);
+                            Log.d("hello", "" + myGps[1]);
                             // 发送消息
                             conversation.sendMessage(msg, new AVIMConversationCallback() {
                                 @Override
@@ -60,8 +64,14 @@ public class CallerActivity extends AppCompatActivity {
                                     if (e == null) {
                                         Log.d("hello", "发送成功！");
                                     }
+                                    else {
+                                        e.printStackTrace();
+                                    }
                                 }
                             });
+                        }
+                        else {
+                            e.printStackTrace();
                         }
                     }
                 });
