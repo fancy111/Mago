@@ -74,7 +74,7 @@
         <!-- Gaode key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="ae1585ee86c8460eddd0b330c17d0158" />
+            android:value="a2e08fe93712f3f2e1471771bd550230" />
         <!-- a2e08fe93712f3f2e1471771bd550230 (rushzhou) -->
         <!-- ae1585ee86c8460eddd0b330c17d0158 (fancy) -->
         <service android:name="com.amap.api.location.APSService" />

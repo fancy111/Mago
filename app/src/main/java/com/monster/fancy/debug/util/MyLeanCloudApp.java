@@ -51,6 +51,9 @@ public class MyLeanCloudApp extends Application {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     ctx.startActivity(intent);
                 }
+                else if (text.equals("Iambusy")){
+
+                }
 
             }
         }
