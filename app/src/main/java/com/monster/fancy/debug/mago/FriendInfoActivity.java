@@ -75,7 +75,7 @@ public class FriendInfoActivity extends AppCompatActivity {
                 //if user click the button to true,then set this friend to star
                 if(isChecked) {
                     friend.setStarFriend(true);
-                    Toast.makeText(getApplicationContext(), friend.isStarFriend() + "", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), friend.isStarFriend() + "", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -152,7 +152,6 @@ public class FriendInfoActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             //if is the find friend dialog,call the friend
             if (dialog == dlgConfirm && which == Dialog.BUTTON_POSITIVE){
-                Toast.makeText(getApplicationContext(), friend.getID()+"\n"+AVUser.getCurrentUser().getObjectId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(FriendInfoActivity.this,CallerActivity.class);
                 intent.putExtra("friend",friend);
                 intent.putExtra("myGps", myGps);

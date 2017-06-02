@@ -10,22 +10,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal">
+    <ImageButton
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="10dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/back_icon"
+        android:background="#000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="back" />
 
-        <Button
-            android:id="@+id/start_naiv_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="StartNavigation"
-            android:textSize="16sp"
-            android:textAllCaps="false"
-            android:onClick="startNavigation" />
-    </LinearLayout>
+    <ImageButton
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/magobtn"
+        android:background="#0000"
+        android:id="@+id/start_hud_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startHud" />
 
     <ScrollView
         android:layout_width="match_parent"

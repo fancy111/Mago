@@ -70,11 +70,16 @@
         <activity android:name=".LocaActivity" />
         <activity android:name=".SystemHelpActivity" />
         <activity android:name=".CallRecordsActivity" />
+        <activity android:name=".LocaActivitySim" />
+        <activity android:name=".AddFriendInfoActivity" />
+        <activity android:name=".GroupIntroActivity" />
+        <activity android:name=".FunctionIntroActivity" />
+        <activity android:name=".MagoActivity" />
 
         <!-- Gaode key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="ae1585ee86c8460eddd0b330c17d0158" />
+            android:value="a2e08fe93712f3f2e1471771bd550230" />
         <!-- a2e08fe93712f3f2e1471771bd550230 (rushzhou) -->
         <!-- ae1585ee86c8460eddd0b330c17d0158 (fancy) -->
         <service android:name="com.amap.api.location.APSService" />
@@ -92,10 +97,7 @@
         </receiver>
         <!-- 反馈组件 -->
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
-        <activity android:name=".AddFriendInfoActivity" />
-        <activity android:name=".GroupIntroActivity" />
-        <activity android:name=".FunctionIntroActivity" />
-        <activity android:name=".MagoActivity"></activity>
+
     </application>
 
 </manifest>

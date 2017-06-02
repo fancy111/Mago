@@ -40,8 +40,6 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 public class MainActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
@@ -56,7 +54,6 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
 
     private AMap mAMap;
     private MapView mMapView;
-    private TextView tvResult;
 
     private AMapLocationClient mLocationClient;
     private OnLocationChangedListener mListener;
@@ -89,8 +86,6 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
 
         mMapView = (MapView) findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
-        tvResult = (TextView) findViewById(R.id.tv_result);
-        tvResult.setVisibility(View.GONE);
 
         mAVUser = AVUser.getCurrentUser();
 
@@ -125,10 +120,6 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
                 InputStream inputStream = conn.getInputStream();
                 return BitmapFactory.decodeStream(inputStream);
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -196,36 +187,30 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         if (mAMap == null) {
             mAMap = mMapView.getMap();
             mAMap.getUiSettings().setRotateGesturesEnabled(false);
-            mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
-            setUpMap();
+            mAMap.setLocationSource(this);// 设置定位监听
+            mAMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
+            MyLocationStyle myLocationStyle = new MyLocationStyle();
+            // 自定义定位蓝点图标
+            myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.gps_point));
+            // 自定义精度范围的圆形边框颜色
+            myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
+            // 自定义精度范围的圆形边框宽度
+            myLocationStyle.strokeWidth(0);
+            // 设置圆形的填充颜色
+            myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
+            //连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动
+            myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
+            //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+            myLocationStyle.interval(1000);
+            // 将自定义的 myLocationStyle 对象添加到地图上
+            mAMap.setMyLocationStyle(myLocationStyle);
+            // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+            mAMap.setMyLocationEnabled(true);
+            // setup marker
+            marker = mAMap.addMarker(new MarkerOptions()
+                    .icon(mBitmapDescriptor)
+                    .anchor(0.5f, 1));
         }
-    }
-
-    private void setUpMap() {
-        mAMap.setLocationSource(this);// 设置定位监听
-        mAMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
-        MyLocationStyle myLocationStyle = new MyLocationStyle();
-        // 自定义定位蓝点图标
-        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.gps_point));
-        // 自定义精度范围的圆形边框颜色
-        myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
-        // 自定义精度范围的圆形边框宽度
-        myLocationStyle.strokeWidth(0);
-        // 设置圆形的填充颜色
-        myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
-        //连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）This is the default mode。
-        // myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_SHOW);
-        //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        myLocationStyle.interval(10000);
-        // 将自定义的 myLocationStyle 对象添加到地图上
-        mAMap.setMyLocationStyle(myLocationStyle);
-        // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
-        mAMap.setMyLocationEnabled(true);
-        // setup marker
-        marker = mAMap.addMarker(new MarkerOptions()
-                .icon(mBitmapDescriptor)
-                .anchor(0.5f, 1));
     }
 
     @Override
@@ -260,32 +245,25 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (mListener != null && aMapLocation != null) {
             if (aMapLocation.getErrorCode() == 0) {
-                tvResult.setVisibility(View.GONE);
                 // 显示系统小蓝点
                 mListener.onLocationChanged(aMapLocation);
                 mLatitude = aMapLocation.getLatitude();
                 mLongitude = aMapLocation.getLongitude();
                 LatLng latLng = new LatLng(mLatitude, mLongitude);
-                // mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
-                // mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
                 // 显示marker
                 marker.setPosition(latLng);
-
-                String gpsText = "定位: " + aMapLocation.getLatitude() + ", " + aMapLocation.getLongitude();
-                tvResult.setVisibility(View.VISIBLE);
-                tvResult.setText(gpsText);
+                mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": "
                         + aMapLocation.getErrorInfo();
                 Log.e("AmapErr", errText);
-                tvResult.setVisibility(View.VISIBLE);
-                tvResult.setText(errText);
             }
         }
     }
 
     @Override
     protected void onResume() {
+        Log.d("resume","in on resume func");
         super.onResume();
         mMapView.onResume();
     }
@@ -329,10 +307,10 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
                 intent = new Intent(MainActivity.this, SystemHelpActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.callrecord_text:
-                intent = new Intent(MainActivity.this, CallRecordsActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.callrecord_text:
+//                intent = new Intent(MainActivity.this, CallRecordsActivity.class);
+//                startActivity(intent);
+//                break;
             case R.id.logout_text:
                 //user log out
                 AVUser.getCurrentUser().logOut();
