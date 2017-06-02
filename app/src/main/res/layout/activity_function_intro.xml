@@ -59,7 +59,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="与好友建立通话分享实时位置，快速找到对方"
+        android:text="搜索、添加好友，管理好友列表"
         android:textSize="16sp"
         android:textColor="@color/textColor_gray"
         android:layout_margin="16dp" />
@@ -74,8 +74,33 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="在通话过程中，可点击磁铁按钮，增强现实感"
+        android:text="与好友建立通话，分享实时位置，快速找到对方"
         android:textSize="16sp"
         android:textColor="@color/textColor_gray"
         android:layout_margin="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/foreGray" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="管理个人信息"
+        android:textSize="16sp"
+        android:textColor="@color/textColor_gray"
+        android:layout_margin="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/foreGray" />
+
+
+
 </LinearLayout>

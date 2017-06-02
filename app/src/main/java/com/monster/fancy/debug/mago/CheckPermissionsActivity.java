@@ -1,7 +1,6 @@
 package com.monster.fancy.debug.mago;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +8,7 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
  * 需要进行运行时权限检测的Activity可以继承这个类
  * Created by rushzhou on 4/27/17.
  */
-public class CheckPermissionsActivity extends Activity
+public class CheckPermissionsActivity extends AppCompatActivity
         implements
         ActivityCompat.OnRequestPermissionsResultCallback {
     /**

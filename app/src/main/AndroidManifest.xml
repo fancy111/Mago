@@ -70,6 +70,11 @@
         <activity android:name=".LocaActivity" />
         <activity android:name=".SystemHelpActivity" />
         <activity android:name=".CallRecordsActivity" />
+        <activity android:name=".LocaActivitySim" />
+        <activity android:name=".AddFriendInfoActivity" />
+        <activity android:name=".GroupIntroActivity" />
+        <activity android:name=".FunctionIntroActivity" />
+        <activity android:name=".MagoActivity" />
 
         <!-- Gaode key -->
         <meta-data
@@ -92,10 +97,7 @@
         </receiver>
         <!-- 反馈组件 -->
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
-        <activity android:name=".AddFriendInfoActivity" />
-        <activity android:name=".GroupIntroActivity" />
-        <activity android:name=".FunctionIntroActivity" />
-        <activity android:name=".MagoActivity"></activity>
+
     </application>
 
 </manifest>

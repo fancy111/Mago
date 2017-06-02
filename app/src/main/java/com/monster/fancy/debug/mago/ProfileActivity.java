@@ -1,22 +1,16 @@
 package com.monster.fancy.debug.mago;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.squareup.picasso.Picasso;
-
-import cn.qqtheme.framework.picker.OptionPicker;
-import cn.qqtheme.framework.widget.WheelView;
 
 public class ProfileActivity extends AppCompatActivity {
 
