@@ -97,13 +97,27 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void done(AVUser avUser, AVException e) {
                     //if log in success
-                    if (avUser != null) {
-                        Log.d("Login", "Successd with mobile phone number.");
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
-                    } else {
+                    if(e == null){
+                        if (avUser != null) {
+                            Log.d("Login", "Successd with mobile phone number.");
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
+                        }
+                    }
+                   else{
                         showProgress(false);
-                        Toast.makeText(getBaseContext(), getString(R.string.error_invalid_phone_or_password), Toast.LENGTH_SHORT).show();
+                        if (e.getCode() == 0) {
+                            Toast.makeText(getBaseContext(), "请检查网络连接后重试", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else if (e.getCode() == 210) {
+                            Toast.makeText(getBaseContext(), getString(R.string.error_invalid_phone_or_password), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+//                            Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), ""+e.getCode(), Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }
             });

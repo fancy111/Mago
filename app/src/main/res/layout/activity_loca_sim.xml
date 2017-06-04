@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.monster.fancy.debug.mago.LocaActivity">
+    tools:context="com.monster.fancy.debug.mago.LocaActivitySim">
 
     <com.amap.api.maps.MapView
         android:id="@+id/map"
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/backgroundGray"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentBottom="true">
 
         <ImageButton
             android:onClick="back"

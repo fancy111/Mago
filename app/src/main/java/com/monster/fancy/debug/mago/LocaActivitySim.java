@@ -1,7 +1,6 @@
 package com.monster.fancy.debug.mago;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,6 +11,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,12 +101,15 @@ public class LocaActivitySim extends CheckPermissionsActivity implements Locatio
     private double mLongitude;
 
     private int whoAmI;
-    private boolean firstTime;
     private String peerId;
+
+    private boolean firstTime;
+    private boolean isClosed;
+    private boolean initMarker;
 
     private TextView restDistanceTextView;
 
-    private boolean isClosed;
+
 
     private AMapNavi mAMapNavi;
 
@@ -158,7 +161,7 @@ public class LocaActivitySim extends CheckPermissionsActivity implements Locatio
             return;
         }
         isClosed = true;
-        new AlertDialog.Builder(this).setTitle("您已到达好友附近")
+        new AlertDialog.Builder(this).setCancelable(false).setTitle("您已到达好友附近")
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
@@ -193,6 +196,14 @@ public class LocaActivitySim extends CheckPermissionsActivity implements Locatio
     }
 
     //按下返回按钮
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            onBackPressed();
+        }
+        return false;
+    }
+
     public void back(View view) {
         onBackPressed();
     }
@@ -251,6 +262,7 @@ public class LocaActivitySim extends CheckPermissionsActivity implements Locatio
         mMapView.onCreate(savedInstanceState);
         firstTime = true;
         isClosed = false;
+        initMarker = true;
 
         restDistanceTextView = (TextView) findViewById(R.id.restDistanceText);
 
@@ -357,6 +369,7 @@ public class LocaActivitySim extends CheckPermissionsActivity implements Locatio
 
             mAMap.setLocationSource(this);// 设置定位监听
             mAMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
+            mAMap.getUiSettings().setZoomControlsEnabled(false);
             MyLocationStyle myLocationStyle = new MyLocationStyle();
             // 自定义定位蓝点图标
             myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.gps_point));
@@ -499,7 +512,12 @@ public class LocaActivitySim extends CheckPermissionsActivity implements Locatio
 
     private void moveMarker(){
         LatLng latLng = new LatLng(mLatitude, mLongitude);
-        mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+        if (initMarker){
+            initMarker = false;
+            mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+        }
+        else
+            mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
         marker.setPosition(latLng);
         friendMarker.setPosition(friendLatLng);
     }
