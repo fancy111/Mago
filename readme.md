@@ -1,9 +1,9 @@
-#Mago (Magnet Go!)
+# Mago (Magnet Go!)
 
 ## Demo
-上方的是邀请发起者，下方的是邀请接收者。
-![发起方](https://github.com/rushzhou/Mago/tree/master/raw/sender.gif)
-![接收方](https://github.com/rushzhou/Mago/tree/master/raw/receiver.gif)
+上方的是邀请发起者，下方的是邀请接收者。</br>
+![发起方](https://github.com/rushzhou/Mago/blob/master/raw/sender.gif)</br>
+![接收方](https://github.com/rushzhou/Mago/blob/master/raw/receiver.gif)</br>
 
 ## APK下载地址
 如果您看到这条消息就说明我们的项目仍在发布审核中。一旦审核通过，我们会及时在此更新下载地址。如果您由于时间原因必须现在查看我们的APK，请到百度云盘下载：
