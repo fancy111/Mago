@@ -1,5 +1,6 @@
 package com.monster.fancy.debug.mago;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,11 +11,14 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -33,14 +37,20 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
+import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
+import com.monster.fancy.debug.util.MyLeanCloudApp;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 
 public class MainActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
 
@@ -72,6 +82,8 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
 
     private AVFile avatarFile;
 
+    private long exitTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +101,15 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
 
         mAVUser = AVUser.getCurrentUser();
 
+        new AlertDialog.Builder(this).setTitle("请保持网络畅通，这对于程序正确运行很重要")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+
         setMyInfo();
 
         clientLogin();
@@ -96,6 +117,21 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
         genMarker();
 
         initMap();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**
@@ -252,7 +288,7 @@ public class MainActivity extends CheckPermissionsActivity implements LocationSo
                 LatLng latLng = new LatLng(mLatitude, mLongitude);
                 // 显示marker
                 marker.setPosition(latLng);
-                mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+                mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": "
                         + aMapLocation.getErrorInfo();

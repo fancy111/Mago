@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -134,6 +135,18 @@ public class FriendInfoActivity extends AppCompatActivity {
         intent.putExtra("myGps", myGps);
         finish();
         startActivity(intent);
+    }
+
+    //按下返回按钮
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(FriendInfoActivity.this,AdressListActivity.class);
+            intent.putExtra("myGps", myGps);
+            finish();
+            startActivity(intent);
+        }
+        return false;
     }
 
     //the onclick method for find friend button
