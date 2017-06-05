@@ -4,7 +4,7 @@
 左边的是邀请发起者，右边的是邀请接收者，二者时间上是同步的。</br>
 ![发起方](https://github.com/rushzhou/Mago/blob/master/raw/sender.gif)
 ![接收方](https://github.com/rushzhou/Mago/blob/master/raw/receiver.gif)</br>
-受文件大小限制，这里展示的是二倍速版本。如果您对我们的Demo感兴趣，可以到百度云盘下载高清版：
+受文件大小限制，这里展示的是二倍速版本。如果您对我们的Demo感兴趣，可以到百度云盘下载高清完整版：
 >链接: https://pan.baidu.com/s/1gfaei5d 密码: rbpa
 
 ## APK下载地址
