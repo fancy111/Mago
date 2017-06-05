@@ -1,13 +1,15 @@
 # Mago (Magnet Go!)
 
 ## Demo
-上方的是邀请发起者，下方的是邀请接收者。</br>
-![发起方](https://github.com/rushzhou/Mago/blob/master/raw/sender.gif)</br>
+左边的是邀请发起者，右边的是邀请接收者，二者时间上是同步的。</br>
+![发起方](https://github.com/rushzhou/Mago/blob/master/raw/sender.gif)
 ![接收方](https://github.com/rushzhou/Mago/blob/master/raw/receiver.gif)</br>
+受文件大小限制，这里展示的是二倍速版本。如果您对我们的Demo感兴趣，可以到百度云盘下载高清完整版：
+>链接: https://pan.baidu.com/s/1gfaei5d 密码: rbpa
 
 ## APK下载地址
-如果您看到这条消息就说明我们的项目仍在发布审核中。一旦审核通过，我们会及时在此更新下载地址。如果您由于时间原因必须现在查看我们的APK，请到百度云盘下载：
->链接: https://pan.baidu.com/s/1i55idSh 密码: xtr5
+腾讯应用宝：
+>http://sj.qq.com/myapp/detail.htm?apkName=com.monster.fancy.debug.mago
 
 ## 使用说明
 正如您在Demo中看到的，Mago需要发起者和接收者两个角色，以下为测试步骤：
