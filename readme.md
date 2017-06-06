@@ -8,8 +8,13 @@
 >链接: https://pan.baidu.com/s/1gfaei5d 密码: rbpa
 
 ## APK下载地址
+百度手机助手：
+>http://shouji.baidu.com/software/11622550.html
 腾讯应用宝：
 >http://sj.qq.com/myapp/detail.htm?apkName=com.monster.fancy.debug.mago
+安卓市场：
+>http://apk.hiapk.com/appinfo/com.monster.fancy.debug.mago
+
 
 ## 使用说明
 正如您在Demo中看到的，Mago需要发起者和接收者两个角色，以下为测试步骤：
