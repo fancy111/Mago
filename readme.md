@@ -10,8 +10,10 @@
 ## APK下载地址
 百度手机助手：
 >http://shouji.baidu.com/software/11622550.html
+
 腾讯应用宝：
 >http://sj.qq.com/myapp/detail.htm?apkName=com.monster.fancy.debug.mago
+
 安卓市场：
 >http://apk.hiapk.com/appinfo/com.monster.fancy.debug.mago
 
